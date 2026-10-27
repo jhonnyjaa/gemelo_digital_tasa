@@ -1,0 +1,1688 @@
+{
+ "scale": 0.058,
+ "origin": [
+  1000,
+  665
+ ],
+ "plan": {
+  "image": "layout_almacen.jpg",
+  "size": [
+   2000,
+   1000
+  ],
+  "cropTop": 330
+ },
+ "levelHeight": 1.35,
+ "mezzDeck": {
+  "rect": [
+   1838,
+   438,
+   1970,
+   828
+  ],
+  "height": 3.4
+ },
+ "racks": [
+  {
+   "id": 1,
+   "levels": 6,
+   "columns": 21,
+   "origin": [
+    1390,
+    646
+   ],
+   "dir": [
+    -1,
+    0
+   ],
+   "pitch": 46.7,
+   "depth": 22,
+   "gaps": [
+    {
+     "after": 8,
+     "width": 50
+    },
+    {
+     "after": 14,
+     "width": 48
+    }
+   ]
+  },
+  {
+   "id": 2,
+   "levels": 6,
+   "columns": 21,
+   "origin": [
+    1390,
+    669
+   ],
+   "dir": [
+    -1,
+    0
+   ],
+   "pitch": 46.7,
+   "depth": 22,
+   "gaps": [
+    {
+     "after": 8,
+     "width": 50
+    },
+    {
+     "after": 14,
+     "width": 48
+    }
+   ]
+  },
+  {
+   "id": 3,
+   "levels": 6,
+   "columns": 22,
+   "origin": [
+    1390,
+    767
+   ],
+   "dir": [
+    -1,
+    0
+   ],
+   "pitch": 46.8,
+   "depth": 21,
+   "gaps": [
+    {
+     "after": 8,
+     "width": 50
+    },
+    {
+     "after": 14,
+     "width": 50
+    }
+   ]
+  },
+  {
+   "id": 4,
+   "levels": 6,
+   "columns": 22,
+   "origin": [
+    1390,
+    790
+   ],
+   "dir": [
+    -1,
+    0
+   ],
+   "pitch": 46.8,
+   "depth": 21,
+   "gaps": [
+    {
+     "after": 8,
+     "width": 50
+    },
+    {
+     "after": 14,
+     "width": 50
+    }
+   ]
+  },
+  {
+   "id": 5,
+   "levels": 6,
+   "columns": 27,
+   "origin": [
+    1490,
+    884
+   ],
+   "dir": [
+    -1,
+    0
+   ],
+   "pitch": 46.8,
+   "depth": 22,
+   "gaps": [
+    {
+     "after": 11,
+     "width": 12
+    },
+    {
+     "after": 19,
+     "width": 20
+    }
+   ]
+  },
+  {
+   "id": 6,
+   "levels": 4,
+   "columns": 4,
+   "origin": [
+    168,
+    886
+   ],
+   "dir": [
+    -0.898,
+    -0.442
+   ],
+   "pitch": 37,
+   "depth": 24
+  },
+  {
+   "id": 7,
+   "levels": 4,
+   "columns": 4,
+   "origin": [
+    298,
+    508
+   ],
+   "dir": [
+    -0.403,
+    0.915
+   ],
+   "pitch": 34,
+   "depth": 22
+  },
+  {
+   "id": 8,
+   "levels": 4,
+   "columns": 4,
+   "origin": [
+    212,
+    437
+   ],
+   "dir": [
+    0.93,
+    0.37
+   ],
+   "pitch": 24,
+   "depth": 24
+  },
+  {
+   "id": 9,
+   "levels": 4,
+   "columns": 6,
+   "origin": [
+    188,
+    457
+   ],
+   "dir": [
+    -0.4,
+    0.916
+   ],
+   "pitch": 29,
+   "depth": 26
+  },
+  {
+   "id": 10,
+   "levels": 4,
+   "columns": 10,
+   "origin": [
+    1688,
+    888
+   ],
+   "dir": [
+    0,
+    -1
+   ],
+   "pitch": 21,
+   "depth": 22
+  },
+  {
+   "id": 11,
+   "levels": 4,
+   "columns": 7,
+   "origin": [
+    1791,
+    822
+   ],
+   "dir": [
+    0,
+    -1
+   ],
+   "pitch": 20.5,
+   "depth": 22
+  },
+  {
+   "id": 13,
+   "levels": 4,
+   "columns": 3,
+   "origin": [
+    1688,
+    440
+   ],
+   "dir": [
+    0,
+    1
+   ],
+   "pitch": 29,
+   "depth": 10,
+   "levelHeight": 0.78
+  },
+  {
+   "id": 14,
+   "levels": 4,
+   "columns": 2,
+   "origin": [
+    1741,
+    436
+   ],
+   "dir": [
+    0,
+    1
+   ],
+   "pitch": 52,
+   "depth": 10,
+   "levelHeight": 0.78
+  },
+  {
+   "id": 15,
+   "levels": 4,
+   "columns": 2,
+   "origin": [
+    1752,
+    436
+   ],
+   "dir": [
+    0,
+    1
+   ],
+   "pitch": 52,
+   "depth": 10,
+   "levelHeight": 0.78
+  },
+  {
+   "id": 16,
+   "levels": 4,
+   "columns": 2,
+   "origin": [
+    1777,
+    440
+   ],
+   "dir": [
+    0,
+    1
+   ],
+   "pitch": 52,
+   "depth": 10,
+   "levelHeight": 0.78
+  },
+  {
+   "id": 17,
+   "levels": 3,
+   "columns": 3,
+   "origin": [
+    1788,
+    442
+   ],
+   "dir": [
+    0,
+    1
+   ],
+   "pitch": 35,
+   "depth": 10,
+   "levelHeight": 1
+  },
+  {
+   "id": 18,
+   "levels": 3,
+   "columns": 3,
+   "origin": [
+    1816,
+    434
+   ],
+   "dir": [
+    0,
+    1
+   ],
+   "pitch": 35,
+   "depth": 10,
+   "levelHeight": 1
+  },
+  {
+   "id": 30,
+   "levels": 6,
+   "bays": 3,
+   "subcolumns": 7,
+   "origin": [
+    1843,
+    447
+   ],
+   "dir": [
+    1,
+    0
+   ],
+   "pitch": 5.8,
+   "depth": 9,
+   "levelHeight": 0.5,
+   "baseY": 0,
+   "group": "mezzLow"
+  },
+  {
+   "id": 31,
+   "levels": 6,
+   "bays": 3,
+   "subcolumns": 7,
+   "origin": [
+    1843,
+    457
+   ],
+   "dir": [
+    1,
+    0
+   ],
+   "pitch": 5.8,
+   "depth": 9,
+   "levelHeight": 0.5,
+   "baseY": 0,
+   "group": "mezzLow"
+  },
+  {
+   "id": 32,
+   "levels": 6,
+   "bays": 3,
+   "subcolumns": 7,
+   "origin": [
+    1843,
+    490.5
+   ],
+   "dir": [
+    1,
+    0
+   ],
+   "pitch": 5.8,
+   "depth": 9,
+   "levelHeight": 0.5,
+   "baseY": 0,
+   "group": "mezzLow"
+  },
+  {
+   "id": 33,
+   "levels": 6,
+   "bays": 3,
+   "subcolumns": 7,
+   "origin": [
+    1843,
+    500.5
+   ],
+   "dir": [
+    1,
+    0
+   ],
+   "pitch": 5.8,
+   "depth": 9,
+   "levelHeight": 0.5,
+   "baseY": 0,
+   "group": "mezzLow"
+  },
+  {
+   "id": 34,
+   "levels": 6,
+   "bays": 3,
+   "subcolumns": 7,
+   "origin": [
+    1843,
+    534
+   ],
+   "dir": [
+    1,
+    0
+   ],
+   "pitch": 5.8,
+   "depth": 9,
+   "levelHeight": 0.5,
+   "baseY": 0,
+   "group": "mezzLow"
+  },
+  {
+   "id": 35,
+   "levels": 6,
+   "bays": 3,
+   "subcolumns": 7,
+   "origin": [
+    1843,
+    544
+   ],
+   "dir": [
+    1,
+    0
+   ],
+   "pitch": 5.8,
+   "depth": 9,
+   "levelHeight": 0.5,
+   "baseY": 0,
+   "group": "mezzLow"
+  },
+  {
+   "id": 36,
+   "levels": 6,
+   "bays": 3,
+   "subcolumns": 7,
+   "origin": [
+    1843,
+    577.5
+   ],
+   "dir": [
+    1,
+    0
+   ],
+   "pitch": 5.8,
+   "depth": 9,
+   "levelHeight": 0.5,
+   "baseY": 0,
+   "group": "mezzLow"
+  },
+  {
+   "id": 37,
+   "levels": 6,
+   "bays": 3,
+   "subcolumns": 7,
+   "origin": [
+    1843,
+    587.5
+   ],
+   "dir": [
+    1,
+    0
+   ],
+   "pitch": 5.8,
+   "depth": 9,
+   "levelHeight": 0.5,
+   "baseY": 0,
+   "group": "mezzLow"
+  },
+  {
+   "id": 38,
+   "levels": 6,
+   "bays": 3,
+   "subcolumns": 7,
+   "origin": [
+    1843,
+    621
+   ],
+   "dir": [
+    1,
+    0
+   ],
+   "pitch": 5.8,
+   "depth": 9,
+   "levelHeight": 0.5,
+   "baseY": 0,
+   "group": "mezzLow"
+  },
+  {
+   "id": 39,
+   "levels": 6,
+   "bays": 3,
+   "subcolumns": 7,
+   "origin": [
+    1843,
+    631
+   ],
+   "dir": [
+    1,
+    0
+   ],
+   "pitch": 5.8,
+   "depth": 9,
+   "levelHeight": 0.5,
+   "baseY": 0,
+   "group": "mezzLow"
+  },
+  {
+   "id": 40,
+   "levels": 6,
+   "bays": 3,
+   "subcolumns": 7,
+   "origin": [
+    1843,
+    664.5
+   ],
+   "dir": [
+    1,
+    0
+   ],
+   "pitch": 5.8,
+   "depth": 9,
+   "levelHeight": 0.5,
+   "baseY": 0,
+   "group": "mezzLow"
+  },
+  {
+   "id": 41,
+   "levels": 6,
+   "bays": 3,
+   "subcolumns": 7,
+   "origin": [
+    1843,
+    674.5
+   ],
+   "dir": [
+    1,
+    0
+   ],
+   "pitch": 5.8,
+   "depth": 9,
+   "levelHeight": 0.5,
+   "baseY": 0,
+   "group": "mezzLow"
+  },
+  {
+   "id": 42,
+   "levels": 6,
+   "bays": 3,
+   "subcolumns": 7,
+   "origin": [
+    1843,
+    708
+   ],
+   "dir": [
+    1,
+    0
+   ],
+   "pitch": 5.8,
+   "depth": 9,
+   "levelHeight": 0.5,
+   "baseY": 0,
+   "group": "mezzLow"
+  },
+  {
+   "id": 43,
+   "levels": 6,
+   "bays": 3,
+   "subcolumns": 7,
+   "origin": [
+    1843,
+    718
+   ],
+   "dir": [
+    1,
+    0
+   ],
+   "pitch": 5.8,
+   "depth": 9,
+   "levelHeight": 0.5,
+   "baseY": 0,
+   "group": "mezzLow"
+  },
+  {
+   "id": 44,
+   "levels": 6,
+   "bays": 3,
+   "subcolumns": 7,
+   "origin": [
+    1843,
+    751.5
+   ],
+   "dir": [
+    1,
+    0
+   ],
+   "pitch": 5.8,
+   "depth": 9,
+   "levelHeight": 0.5,
+   "baseY": 0,
+   "group": "mezzLow"
+  },
+  {
+   "id": 45,
+   "levels": 6,
+   "bays": 3,
+   "subcolumns": 7,
+   "origin": [
+    1843,
+    761.5
+   ],
+   "dir": [
+    1,
+    0
+   ],
+   "pitch": 5.8,
+   "depth": 9,
+   "levelHeight": 0.5,
+   "baseY": 0,
+   "group": "mezzLow"
+  },
+  {
+   "id": 46,
+   "levels": 6,
+   "bays": 3,
+   "subcolumns": 7,
+   "origin": [
+    1843,
+    795
+   ],
+   "dir": [
+    1,
+    0
+   ],
+   "pitch": 5.8,
+   "depth": 9,
+   "levelHeight": 0.5,
+   "baseY": 0,
+   "group": "mezzLow"
+  },
+  {
+   "id": 47,
+   "levels": 6,
+   "bays": 3,
+   "subcolumns": 7,
+   "origin": [
+    1843,
+    805
+   ],
+   "dir": [
+    1,
+    0
+   ],
+   "pitch": 5.8,
+   "depth": 9,
+   "levelHeight": 0.5,
+   "baseY": 0,
+   "group": "mezzLow"
+  },
+  {
+   "id": 48,
+   "levels": 6,
+   "bays": 3,
+   "subcolumns": 7,
+   "origin": [
+    1843,
+    447
+   ],
+   "dir": [
+    1,
+    0
+   ],
+   "pitch": 5.8,
+   "depth": 9,
+   "levelHeight": 0.5,
+   "baseY": 3.55,
+   "group": "mezzUp"
+  },
+  {
+   "id": 49,
+   "levels": 6,
+   "bays": 3,
+   "subcolumns": 7,
+   "origin": [
+    1843,
+    457
+   ],
+   "dir": [
+    1,
+    0
+   ],
+   "pitch": 5.8,
+   "depth": 9,
+   "levelHeight": 0.5,
+   "baseY": 3.55,
+   "group": "mezzUp"
+  },
+  {
+   "id": 50,
+   "levels": 6,
+   "bays": 3,
+   "subcolumns": 7,
+   "origin": [
+    1843,
+    490.5
+   ],
+   "dir": [
+    1,
+    0
+   ],
+   "pitch": 5.8,
+   "depth": 9,
+   "levelHeight": 0.5,
+   "baseY": 3.55,
+   "group": "mezzUp"
+  },
+  {
+   "id": 51,
+   "levels": 6,
+   "bays": 3,
+   "subcolumns": 7,
+   "origin": [
+    1843,
+    500.5
+   ],
+   "dir": [
+    1,
+    0
+   ],
+   "pitch": 5.8,
+   "depth": 9,
+   "levelHeight": 0.5,
+   "baseY": 3.55,
+   "group": "mezzUp"
+  },
+  {
+   "id": 52,
+   "levels": 6,
+   "bays": 3,
+   "subcolumns": 7,
+   "origin": [
+    1843,
+    534
+   ],
+   "dir": [
+    1,
+    0
+   ],
+   "pitch": 5.8,
+   "depth": 9,
+   "levelHeight": 0.5,
+   "baseY": 3.55,
+   "group": "mezzUp"
+  },
+  {
+   "id": 53,
+   "levels": 6,
+   "bays": 3,
+   "subcolumns": 7,
+   "origin": [
+    1843,
+    544
+   ],
+   "dir": [
+    1,
+    0
+   ],
+   "pitch": 5.8,
+   "depth": 9,
+   "levelHeight": 0.5,
+   "baseY": 3.55,
+   "group": "mezzUp"
+  },
+  {
+   "id": 54,
+   "levels": 6,
+   "bays": 3,
+   "subcolumns": 7,
+   "origin": [
+    1843,
+    577.5
+   ],
+   "dir": [
+    1,
+    0
+   ],
+   "pitch": 5.8,
+   "depth": 9,
+   "levelHeight": 0.5,
+   "baseY": 3.55,
+   "group": "mezzUp"
+  },
+  {
+   "id": 55,
+   "levels": 6,
+   "bays": 2,
+   "subcolumns": 7,
+   "origin": [
+    1843,
+    587.5
+   ],
+   "dir": [
+    1,
+    0
+   ],
+   "pitch": 5.8,
+   "depth": 9,
+   "levelHeight": 0.5,
+   "baseY": 3.55,
+   "group": "mezzUp"
+  },
+  {
+   "id": 56,
+   "levels": 6,
+   "bays": 2,
+   "subcolumns": 7,
+   "origin": [
+    1843,
+    621
+   ],
+   "dir": [
+    1,
+    0
+   ],
+   "pitch": 5.8,
+   "depth": 9,
+   "levelHeight": 0.5,
+   "baseY": 3.55,
+   "group": "mezzUp"
+  },
+  {
+   "id": 57,
+   "levels": 6,
+   "bays": 3,
+   "subcolumns": 7,
+   "origin": [
+    1843,
+    631
+   ],
+   "dir": [
+    1,
+    0
+   ],
+   "pitch": 5.8,
+   "depth": 9,
+   "levelHeight": 0.5,
+   "baseY": 3.55,
+   "group": "mezzUp"
+  },
+  {
+   "id": 58,
+   "levels": 6,
+   "bays": 3,
+   "subcolumns": 7,
+   "origin": [
+    1843,
+    664.5
+   ],
+   "dir": [
+    1,
+    0
+   ],
+   "pitch": 5.8,
+   "depth": 9,
+   "levelHeight": 0.5,
+   "baseY": 3.55,
+   "group": "mezzUp"
+  },
+  {
+   "id": 59,
+   "levels": 6,
+   "bays": 3,
+   "subcolumns": 7,
+   "origin": [
+    1843,
+    674.5
+   ],
+   "dir": [
+    1,
+    0
+   ],
+   "pitch": 5.8,
+   "depth": 9,
+   "levelHeight": 0.5,
+   "baseY": 3.55,
+   "group": "mezzUp"
+  },
+  {
+   "id": 60,
+   "levels": 6,
+   "bays": 3,
+   "subcolumns": 7,
+   "origin": [
+    1843,
+    708
+   ],
+   "dir": [
+    1,
+    0
+   ],
+   "pitch": 5.8,
+   "depth": 9,
+   "levelHeight": 0.5,
+   "baseY": 3.55,
+   "group": "mezzUp"
+  },
+  {
+   "id": 61,
+   "levels": 6,
+   "bays": 3,
+   "subcolumns": 7,
+   "origin": [
+    1843,
+    718
+   ],
+   "dir": [
+    1,
+    0
+   ],
+   "pitch": 5.8,
+   "depth": 9,
+   "levelHeight": 0.5,
+   "baseY": 3.55,
+   "group": "mezzUp"
+  },
+  {
+   "id": 62,
+   "levels": 6,
+   "bays": 3,
+   "subcolumns": 7,
+   "origin": [
+    1843,
+    751.5
+   ],
+   "dir": [
+    1,
+    0
+   ],
+   "pitch": 5.8,
+   "depth": 9,
+   "levelHeight": 0.5,
+   "baseY": 3.55,
+   "group": "mezzUp"
+  },
+  {
+   "id": 63,
+   "levels": 6,
+   "bays": 3,
+   "subcolumns": 7,
+   "origin": [
+    1843,
+    761.5
+   ],
+   "dir": [
+    1,
+    0
+   ],
+   "pitch": 5.8,
+   "depth": 9,
+   "levelHeight": 0.5,
+   "baseY": 3.55,
+   "group": "mezzUp"
+  },
+  {
+   "id": 64,
+   "levels": 6,
+   "bays": 3,
+   "subcolumns": 7,
+   "origin": [
+    1843,
+    795
+   ],
+   "dir": [
+    1,
+    0
+   ],
+   "pitch": 5.8,
+   "depth": 9,
+   "levelHeight": 0.5,
+   "baseY": 3.55,
+   "group": "mezzUp"
+  },
+  {
+   "id": 65,
+   "levels": 6,
+   "bays": 3,
+   "subcolumns": 7,
+   "origin": [
+    1843,
+    805
+   ],
+   "dir": [
+    1,
+    0
+   ],
+   "pitch": 5.8,
+   "depth": 9,
+   "levelHeight": 0.5,
+   "baseY": 3.55,
+   "group": "mezzUp"
+  }
+ ],
+ "zones": [
+  {
+   "id": "transito",
+   "name": "Zona tránsito temporal",
+   "kind": "zone",
+   "rect": [
+    410,
+    452,
+    620,
+    545
+   ],
+   "color": "#f59e0b"
+  },
+  {
+   "id": "cross1",
+   "name": "Zona cross docking",
+   "kind": "zone",
+   "rect": [
+    668,
+    470,
+    965,
+    548
+   ],
+   "color": "#10b981"
+  },
+  {
+   "id": "almtemp",
+   "name": "Zona almacenamiento temporal",
+   "kind": "zone",
+   "rect": [
+    1015,
+    472,
+    1212,
+    548
+   ],
+   "color": "#6366f1"
+  },
+  {
+   "id": "recepcion",
+   "name": "Oficina recepción",
+   "kind": "room",
+   "rect": [
+    1215,
+    435,
+    1270,
+    545
+   ],
+   "color": "#94a3b8"
+  },
+  {
+   "id": "activos",
+   "name": "Oficina activos",
+   "kind": "room",
+   "rect": [
+    1472,
+    432,
+    1532,
+    535
+   ],
+   "color": "#94a3b8"
+  },
+  {
+   "id": "sshh",
+   "name": "SSHH",
+   "kind": "room",
+   "rect": [
+    1535,
+    430,
+    1680,
+    565
+   ],
+   "color": "#94a3b8"
+  },
+  {
+   "id": "cross2",
+   "name": "Zona cross docking 2",
+   "kind": "zone",
+   "rect": [
+    1468,
+    650,
+    1658,
+    765
+   ],
+   "color": "#10b981"
+  },
+  {
+   "id": "insumos",
+   "name": "Almacén de insumos",
+   "kind": "zone",
+   "rect": [
+    1668,
+    670,
+    1805,
+    900
+   ],
+   "color": "#ec4899"
+  },
+  {
+   "id": "patio-gas",
+   "name": "Patio gas",
+   "kind": "yard",
+   "rect": [
+    1855,
+    832,
+    1970,
+    890
+   ],
+   "color": "#ef4444"
+  },
+  {
+   "id": "patio-ext",
+   "name": "Patio exterior",
+   "kind": "yard",
+   "rect": [
+    1000,
+    925,
+    1650,
+    995
+   ],
+   "color": "#84cc16"
+  },
+  {
+   "id": "virtual",
+   "name": "Zona virtual (ubicación no válida)",
+   "kind": "virtual",
+   "rect": [
+    420,
+    338,
+    1180,
+    414
+   ],
+   "color": "#a855f7"
+  }
+ ],
+ "aliases": {
+  "PATIO GAS": "patio-gas",
+  "PATIO EXT": "patio-ext",
+  "PATIO EXTERIOR": "patio-ext",
+  "CROSS DOCKING": "cross1",
+  "TRANSITO TEMPORAL": "transito",
+  "ALMACENAMIENTO TEMPORAL": "almtemp",
+  "INSUMOS": "insumos"
+ },
+ "upperFloor": {
+  "height": 3.4,
+  "rect": [
+   1435,
+   428,
+   1825,
+   570
+  ],
+  "rooms": [
+   {
+    "name": "Operaciones",
+    "rect": [
+     1435,
+     430,
+     1531,
+     535
+    ],
+    "color": "#38bdf8"
+   },
+   {
+    "name": "Planificación",
+    "rect": [
+     1534,
+     430,
+     1647,
+     518
+    ],
+    "color": "#34d399"
+   },
+   {
+    "name": "Jefatura",
+    "rect": [
+     1650,
+     430,
+     1732,
+     518
+    ],
+    "color": "#fbbf24"
+   },
+   {
+    "name": "Sala de reuniones",
+    "rect": [
+     1735,
+     430,
+     1825,
+     560
+    ],
+    "color": "#f472b6"
+   }
+  ],
+  "desks": [
+   [
+    1446,
+    452,
+    90,
+    24,
+    12
+   ],
+   [
+    1446,
+    480,
+    90,
+    24,
+    12
+   ],
+   [
+    1446,
+    508,
+    90,
+    24,
+    12
+   ],
+   [
+    1510,
+    442,
+    0,
+    24,
+    12
+   ],
+   [
+    1590,
+    446,
+    0,
+    30,
+    12
+   ],
+   [
+    1690,
+    446,
+    0,
+    30,
+    12
+   ],
+   [
+    1780,
+    495,
+    90,
+    70,
+    26
+   ]
+  ]
+ },
+ "building": {
+  "outline": [
+   [
+    190,
+    425
+   ],
+   [
+    365,
+    440
+   ],
+   [
+    1975,
+    428
+   ],
+   [
+    1975,
+    908
+   ],
+   [
+    175,
+    912
+   ],
+   [
+    8,
+    836
+   ]
+  ],
+  "wallHeight": 10
+ },
+ "walkways": [
+  {
+   "id": "norte",
+   "width": 16,
+   "points": [
+    [
+     400,
+     582
+    ],
+    [
+     1300,
+     582
+    ]
+   ]
+  },
+  {
+   "id": "sur",
+   "width": 16,
+   "points": [
+    [
+     250,
+     814
+    ],
+    [
+     1440,
+     814
+    ]
+   ]
+  },
+  {
+   "id": "cruce",
+   "width": 16,
+   "points": [
+    [
+     993,
+     582
+    ],
+    [
+     993,
+     814
+    ]
+   ]
+  }
+ ],
+ "crosswalks": [
+  {
+   "p": [
+    993,
+    614
+   ],
+   "length": 34,
+   "width": 18
+  },
+  {
+   "p": [
+    993,
+    718
+   ],
+   "length": 34,
+   "width": 18
+  }
+ ],
+ "stairs": [
+  {
+   "id": "mezz",
+   "from": [
+    1822,
+    690
+   ],
+   "to": [
+    1822,
+    570
+   ],
+   "width": 26,
+   "height": 3.4
+  },
+  {
+   "id": "oficinas",
+   "from": [
+    1745,
+    664
+   ],
+   "to": [
+    1745,
+    572
+   ],
+   "width": 22,
+   "height": 3.4
+  }
+ ],
+ "forklifts": [
+  {
+   "id": "fk1",
+   "speed": 2.6,
+   "route": [
+    {
+     "p": [
+      1440,
+      718
+     ]
+    },
+    {
+     "p": [
+      690,
+      718
+     ],
+     "action": "load",
+     "wait": 3
+    },
+    {
+     "p": [
+      666,
+      718
+     ]
+    },
+    {
+     "p": [
+      666,
+      614
+     ]
+    },
+    {
+     "p": [
+      1300,
+      614
+     ],
+     "action": "unload",
+     "wait": 3
+    },
+    {
+     "p": [
+      1440,
+      614
+     ]
+    }
+   ]
+  },
+  {
+   "id": "fk2",
+   "speed": 2.2,
+   "route": [
+    {
+     "p": [
+      1440,
+      848
+     ],
+     "action": "unload",
+     "wait": 3
+    },
+    {
+     "p": [
+      360,
+      848
+     ],
+     "action": "load",
+     "wait": 3
+    }
+   ]
+  }
+ ],
+ "people": [
+  {
+   "id": "p1",
+   "pos": [
+    1458,
+    452
+   ],
+   "floor": 1,
+   "pose": "sit",
+   "shirt": "#2563eb"
+  },
+  {
+   "id": "p2",
+   "pos": [
+    1458,
+    480
+   ],
+   "floor": 1,
+   "pose": "sit",
+   "shirt": "#dc2626"
+  },
+  {
+   "id": "p3",
+   "pos": [
+    1458,
+    508
+   ],
+   "floor": 1,
+   "pose": "sit",
+   "shirt": "#16a34a"
+  },
+  {
+   "id": "p4",
+   "pos": [
+    1510,
+    454
+   ],
+   "floor": 1,
+   "pose": "sit",
+   "shirt": "#9333ea"
+  },
+  {
+   "id": "p5",
+   "pos": [
+    1590,
+    458
+   ],
+   "floor": 1,
+   "pose": "sit",
+   "shirt": "#0891b2"
+  },
+  {
+   "id": "p6",
+   "pos": [
+    1690,
+    458
+   ],
+   "floor": 1,
+   "pose": "sit",
+   "shirt": "#ea580c"
+  },
+  {
+   "id": "p7",
+   "pos": [
+    1764,
+    480
+   ],
+   "floor": 1,
+   "pose": "sit",
+   "shirt": "#475569"
+  },
+  {
+   "id": "p8",
+   "pos": [
+    1796,
+    510
+   ],
+   "floor": 1,
+   "pose": "sit",
+   "shirt": "#be185d"
+  },
+  {
+   "id": "p9",
+   "pos": [
+    1764,
+    510
+   ],
+   "floor": 1,
+   "pose": "sit",
+   "shirt": "#65a30d"
+  },
+  {
+   "id": "p10",
+   "pos": [
+    1600,
+    545
+   ],
+   "floor": 1,
+   "pose": "walk",
+   "shirt": "#2563eb",
+   "path": [
+    [
+     1480,
+     548
+    ],
+    [
+     1720,
+     548
+    ]
+   ]
+  },
+  {
+   "id": "p11",
+   "pos": [
+    1242,
+    490
+   ],
+   "floor": 0,
+   "pose": "stand",
+   "shirt": "#0ea5e9",
+   "vest": true
+  },
+  {
+   "id": "p12",
+   "pos": [
+    1500,
+    480
+   ],
+   "floor": 0,
+   "pose": "stand",
+   "shirt": "#0ea5e9",
+   "vest": true
+  },
+  {
+   "id": "p13",
+   "pos": [
+    1250,
+    582
+   ],
+   "floor": 0,
+   "pose": "walk",
+   "shirt": "#334155",
+   "vest": true,
+   "path": [
+    [
+     1250,
+     582
+    ],
+    [
+     993,
+     582
+    ],
+    [
+     993,
+     814
+    ],
+    [
+     520,
+     814
+    ]
+   ]
+  },
+  {
+   "id": "p14",
+   "pos": [
+    450,
+    582
+   ],
+   "floor": 0,
+   "pose": "walk",
+   "shirt": "#334155",
+   "vest": true,
+   "path": [
+    [
+     420,
+     582
+    ],
+    [
+     900,
+     582
+    ]
+   ]
+  },
+  {
+   "id": "p15",
+   "pos": [
+    1740,
+    700
+   ],
+   "floor": 0,
+   "pose": "walk",
+   "shirt": "#334155",
+   "vest": true,
+   "path": [
+    [
+     1740,
+     690
+    ],
+    [
+     1740,
+     860
+    ]
+   ]
+  },
+  {
+   "id": "p16",
+   "pos": [
+    1300,
+    814
+   ],
+   "floor": 0,
+   "pose": "walk",
+   "shirt": "#334155",
+   "vest": true,
+   "path": [
+    [
+     1420,
+     814
+    ],
+    [
+     1080,
+     814
+    ]
+   ]
+  }
+ ],
+ "importers": {
+  "ACT": {
+   "code": "Act.Fijo",
+   "loc": "Ubi.Física"
+  }
+ }
+}

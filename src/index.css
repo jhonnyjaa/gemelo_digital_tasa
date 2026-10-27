@@ -1,0 +1,94 @@
+@import 'tailwindcss';
+@import '@fontsource-variable/inter';
+
+@theme {
+  --font-sans: 'Inter Variable', ui-sans-serif, system-ui, sans-serif;
+  --color-bg: #0b1017;
+  --color-fg: #e6edf6;
+}
+
+/* Variables propias del "vidrio" (cambian con el tema) */
+:root {
+  color-scheme: dark;
+  --glass-bg: rgb(14 20 30 / 0.74);
+  --glass-line: rgb(255 255 255 / 0.09);
+  --glass-shadow: 0 12px 48px rgb(0 0 0 / 0.45), inset 0 1px 0 rgb(255 255 255 / 0.05);
+}
+
+/*
+ * Tema claro: Tailwind 4 expone los colores como variables CSS, así que se invierte la escala
+ * slate / white / black y se oscurecen los acentos (sky, amber, emerald, rose) para que
+ * sigan siendo legibles sobre fondo claro. Las clases de los componentes no cambian.
+ */
+[data-theme='light'] {
+  color-scheme: light;
+  --color-bg: #e9eef4;
+  --color-fg: #0f172a;
+  --glass-bg: rgb(255 255 255 / 0.8);
+  --glass-line: rgb(15 23 42 / 0.1);
+  --glass-shadow: 0 10px 36px rgb(30 41 59 / 0.16), inset 0 1px 0 rgb(255 255 255 / 0.9);
+
+  --color-white: #0f172a;
+  --color-black: #ffffff;
+
+  --color-slate-50: #020617;
+  --color-slate-100: #0f172a;
+  --color-slate-200: #1e293b;
+  --color-slate-300: #334155;
+  --color-slate-400: #475569;
+  --color-slate-500: #64748b;
+  --color-slate-600: #94a3b8;
+  --color-slate-700: #cbd5e1;
+  --color-slate-800: #e2e8f0;
+  --color-slate-900: #f1f5f9;
+  --color-slate-950: #f8fafc;
+
+  --color-sky-300: #0369a1;
+  --color-sky-400: #0284c7;
+  --color-sky-500: #0284c7;
+  --color-amber-300: #b45309;
+  --color-amber-400: #b45309;
+  --color-emerald-300: #047857;
+  --color-rose-300: #be123c;
+  --color-pink-500: #db2777;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+}
+body {
+  background: var(--color-bg);
+  color: var(--color-fg);
+  font-family: var(--font-sans);
+  font-feature-settings: 'cv11', 'ss01';
+  -webkit-font-smoothing: antialiased;
+  overflow: hidden;
+}
+
+.glass {
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px) saturate(1.5);
+  border: 1px solid var(--glass-line);
+  box-shadow: var(--glass-shadow);
+}
+
+input,
+button,
+select {
+  font: inherit;
+}
+input[type='number']::-webkit-inner-spin-button {
+  opacity: 0.4;
+}
+
+.scroll {
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in srgb, var(--color-white) 22%, transparent) transparent;
+}
+
+[cmdk-item][data-selected='true'] {
+  background: color-mix(in srgb, var(--color-white) 9%, transparent);
+}
