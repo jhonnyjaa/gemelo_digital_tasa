@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { Command } from 'cmdk';
 import { AnimatePresence, motion } from 'motion/react';
-import { Boxes, Copy, Crosshair, Database, Eye, Gauge, LayoutGrid, Moon, Package, Search, Sun, Warehouse, X } from 'lucide-react';
+import { Boxes, Copy, Crosshair, Database, Eye, Footprints, Gauge, LayoutGrid, MapPinned, Moon, Package, Search, Sun, Warehouse, X } from 'lucide-react';
 import { useShallow } from 'zustand/react/shallow';
 import clsx from 'clsx';
 import { useStore } from '../store';
@@ -118,6 +118,7 @@ export function Dock() {
     { k: 'search', icon: Search, label: 'Buscar', on: () => setPalette(true) },
     { k: 'data', icon: Database, label: 'Datos SAP', on: () => setDrawer('data') },
     { k: 'racks', icon: LayoutGrid, label: 'Racks', on: () => setDrawer('racks') },
+    { k: 'zones', icon: MapPinned, label: 'Zonas y ubicaciones', on: () => setDrawer('zones') },
     { k: 'layers', icon: Eye, label: 'Capas y vista', on: () => setDrawer('layers') },
   ] as const;
   return (
@@ -134,7 +135,16 @@ export function Dock() {
 
 /* ───────── vistas rápidas ───────── */
 export function ViewBar() {
-  const flyTo = useStore((s) => s.flyTo);
+  const { flyTo, walk, setWalk } = useStore(useShallow((s) => ({ flyTo: s.flyTo, walk: s.walk, setWalk: s.setWalk })));
+  useEffect(() => {
+    const h = (e: KeyboardEvent) => {
+      if (e.ctrlKey || e.metaKey || e.altKey || ['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement?.tagName ?? '')) return;
+      if (e.key.toLowerCase() === 'f') setWalk(!useStore.getState().walk);
+    };
+    window.addEventListener('keydown', h);
+    return () => window.removeEventListener('keydown', h);
+  }, [setWalk]);
+  if (walk) return null;
   const list: [ViewKey, string][] = [['general', 'General'], ['planta', 'Planta'], ['oficinas', 'Oficinas'], ['mezanine', 'Mezanine'], ['entrada', 'Nivel de piso']];
   return (
     <div className="pointer-events-none absolute inset-x-0 bottom-4 flex flex-col items-center gap-2">
@@ -142,17 +152,19 @@ export function ViewBar() {
         {list.map(([k, n]) => (
           <button key={k} onClick={() => flyTo([...VIEWS[k].target] as [number, number, number], [...VIEWS[k].cam] as [number, number, number])} className="rounded-xl px-3.5 py-1.5 text-[13px] font-medium text-slate-300 transition hover:bg-white/10 hover:text-white">{n}</button>
         ))}
+        <span className="mx-1 w-px self-stretch bg-white/10" />
+        <button onClick={() => setWalk(true)} title="Recorrer en primera persona (F)" className="flex items-center gap-1.5 rounded-xl bg-sky-500 px-3.5 py-1.5 text-[13px] font-semibold text-[#fff] transition hover:bg-sky-400"><Footprints size={15} /> Recorrer</button>
       </div>
-      <div className="text-[11px] text-slate-500">Arrastra: orbitar · Clic derecho: mover · Rueda: zoom · W A S D / Q E: desplazarse</div>
+      <div className="text-[11px] text-slate-500">Arrastra: orbitar · Clic derecho: mover · Rueda: zoom · W A S D / Q E: desplazarse · F: recorrer a pie</div>
     </div>
   );
 }
 
 /* ───────── inspector ───────── */
 export function Inspector() {
-  const { selected, boxes, config, select, flyTo, placements } = useStore(useShallow((s) => ({ selected: s.selected, boxes: s.boxes, config: s.config, select: s.select, flyTo: s.flyTo, placements: s.placements })));
+  const { selected, boxes, config, dynZones, select, flyTo, placements } = useStore(useShallow((s) => ({ selected: s.selected, boxes: s.boxes, config: s.config, dynZones: s.dynZones, select: s.select, flyTo: s.flyTo, placements: s.placements })));
   const b = selected !== null ? boxes[selected] : null;
-  const zone = b && b.placement.kind === 'zone' ? config.zones.find((z) => z.id === (b.placement as { zone: string }).zone)?.name : null;
+  const zone = b && b.placement.kind === 'zone' ? [...config.zones, ...dynZones].find((z) => z.id === (b.placement as { zone: string }).zone)?.name : null;
   return (
     <AnimatePresence>
       {b && selected !== null && (

@@ -56,7 +56,7 @@ function RackSet({ layouts, labels }: { layouts: RackLayout[]; labels: boolean }
           const side = (rl.id % 2 ? 1 : -1) * (main ? 0.55 : 0.28);
           return (
             <Billboard key={rl.id} position={[rl.ox - rl.dx * back - rl.dz * side, rl.baseY + (main ? 2.2 : rl.levels * rl.levelH + 0.35), rl.oz - rl.dz * back + rl.dx * side]}>
-              <Text font={interFont} fontSize={main ? 0.75 : 0.3} color="#ffb454" outlineWidth={main ? 0.05 : 0.025} outlineColor="#0b1220" anchorX="center" anchorY="middle" sdfGlyphSize={32} characters="0123456789">
+              <Text font={interFont} fontSize={main ? 0.55 : 0.24} color="#ffb454" outlineWidth={main ? 0.05 : 0.025} outlineColor="#0b1220" anchorX="center" anchorY="middle" sdfGlyphSize={32} characters="0123456789">
                 {rl.label}
               </Text>
             </Billboard>

@@ -1,14 +1,14 @@
 import { create } from 'zustand';
 import { get as idbGet, set as idbSet } from 'idb-keyval';
 import defaultConfig from './config/warehouse.config.json';
-import type { Box, Config, Issue, ItemType, Quality, QualityMode, Row, Stats, Theme } from './types';
+import type { Box, Config, Issue, ItemType, Quality, QualityMode, Row, Stats, Theme, ZoneCfg } from './types';
 import { ITEM_TYPES } from './types';
 import { buildLayouts, rectWorld, totalColumns, type RackLayout } from './lib/layout';
 import { buildBoxes, norm } from './lib/locate';
 import { computePlacements, type Placements } from './lib/placements';
 import { generateDemo } from './lib/demo';
 
-const CFG_KEY = 'gemelo.config.v2';
+const CFG_KEY = 'gemelo.config.v3';
 const ROWS_KEY = 'gemelo.rows.v1';
 export const DEFAULT_CONFIG = defaultConfig as unknown as Config;
 
@@ -35,8 +35,9 @@ export interface Toggles {
   racks: boolean;
   roof: boolean;
   walls: boolean;
+  offices: boolean;
 }
-export type Drawer = 'data' | 'racks' | 'layers' | null;
+export type Drawer = 'data' | 'racks' | 'zones' | 'layers' | null;
 
 interface Derived {
   layouts: Map<number, RackLayout>;
@@ -44,14 +45,16 @@ interface Derived {
   issues: Issue[];
   stats: Stats;
   placements: Placements;
+  /** zonas creadas automáticamente por ubicaciones SAP no mapeadas */
+  dynZones: ZoneCfg[];
 }
 
 const emptyRows = (): Record<ItemType, Row[]> => ({ BSU: [], MAT: [], ACT: [] });
 
 function derive(config: Config, rows: Record<ItemType, Row[]>): Derived {
   const layouts = buildLayouts(config);
-  const { boxes, issues, stats } = buildBoxes(rows, config, layouts);
-  return { layouts, boxes, issues, stats, placements: computePlacements(boxes, layouts, config) };
+  const { boxes, issues, stats, dynZones } = buildBoxes(rows, config, layouts);
+  return { layouts, boxes, issues, stats, dynZones, placements: computePlacements(boxes, layouts, config, dynZones) };
 }
 
 function search(boxes: Box[], query: string, types: Record<ItemType, boolean>) {
@@ -86,6 +89,8 @@ interface State extends Derived {
   focusRack: number | null;
   drawer: Drawer;
   palette: boolean;
+  walk: boolean;
+  setWalk: (v: boolean) => void;
   quality: Quality;
   qualityMode: QualityMode;
   theme: Theme;
@@ -131,11 +136,13 @@ export const useStore = create<State>((set, get) => {
     results: [],
     total: 0,
     typeFilter: { BSU: true, MAT: true, ACT: true },
-    toggles: { labels: true, upperMezz: true, zones: true, people: true, forklifts: true, racks: true, roof: false, walls: true },
+    toggles: { labels: true, upperMezz: true, zones: true, people: true, forklifts: true, racks: true, roof: false, walls: true, offices: true },
     fly: null,
     focusRack: null,
     drawer: null,
     palette: false,
+    walk: false,
+    setWalk: (walk) => set({ walk, ...(walk ? { selected: null, drawer: null, palette: false } : {}) }),
     setDrawer: (drawer) => set({ drawer: get().drawer === drawer ? null : drawer }),
     setPalette: (palette) => set({ palette }),
     qualityMode: initialMode,

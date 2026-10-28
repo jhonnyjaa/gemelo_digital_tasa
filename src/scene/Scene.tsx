@@ -10,6 +10,8 @@ import { Building } from './Building';
 import { Racks } from './Racks';
 import { Highlights, Items } from './Items';
 import { Forklifts, People } from './Actors';
+import { Walker } from './Walker';
+import { keys } from './keys';
 
 export const VIEWS = {
   general: { target: [4, 0, 2], cam: [34, 62, 74] },
@@ -20,12 +22,8 @@ export const VIEWS = {
 } as const;
 export type ViewKey = keyof typeof VIEWS;
 
-const keys = new Set<string>();
-
-function CameraRig() {
-  const ctrl = useRef<ElementRef<typeof CameraControls>>(null);
-  const fly = useStore((s) => s.fly);
-
+/** Teclado compartido por la cámara orbital y el modo caminar */
+function KeyTracker() {
   useEffect(() => {
     const typing = () => ['input', 'textarea', 'select'].includes((document.activeElement?.tagName ?? '').toLowerCase());
     const down = (e: KeyboardEvent) => !typing() && !e.metaKey && !e.ctrlKey && keys.add(e.key.toLowerCase());
@@ -40,6 +38,13 @@ function CameraRig() {
       window.removeEventListener('blur', clear);
     };
   }, []);
+
+  return null;
+}
+
+function CameraRig() {
+  const ctrl = useRef<ElementRef<typeof CameraControls>>(null);
+  const fly = useStore((s) => s.fly);
 
   useEffect(() => {
     const c = ctrl.current;
@@ -126,13 +131,14 @@ export function Scene() {
   const select = useStore((s) => s.select);
   const quality = useStore((s) => s.quality);
   const dark = useStore((s) => s.theme) === 'dark';
+  const walk = useStore((s) => s.walk);
   const bg = dark ? '#0b1017' : '#e9eef4';
   return (
     <Canvas
       flat
       dpr={quality === 'high' ? [1, 1.75] : quality === 'medium' ? [1, 1.25] : 1}
       gl={{ antialias: true, powerPreference: 'high-performance' }}
-      camera={{ position: [...VIEWS.general.cam], fov: 38, near: 0.2, far: 1200 }}
+      camera={{ position: [...VIEWS.general.cam], fov: 38, near: 0.15, far: 1200 }}
       onPointerMissed={() => select(null)}
     >
       <color attach="background" args={[bg]} />
@@ -157,7 +163,8 @@ export function Scene() {
       <Highlights />
       <Forklifts />
       <People />
-      <CameraRig />
+      <KeyTracker />
+      {walk ? <Walker /> : <CameraRig />}
       <Effects />
     </Canvas>
   );

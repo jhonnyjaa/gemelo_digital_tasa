@@ -1,8 +1,8 @@
 import { useMemo, useRef, useState } from 'react';
 import { useShallow } from 'zustand/react/shallow';
-import { AlertTriangle, Download, FileSpreadsheet, Plus, Trash2, Upload, Sparkles, Settings2 } from 'lucide-react';
+import { AlertTriangle, Download, FileSpreadsheet, Pin, Plus, Trash2, Upload, Sparkles, Settings2 } from 'lucide-react';
 import { DEFAULT_CONFIG, useStore } from '../store';
-import { ITEM_TYPES, TYPE_COLOR, TYPE_LABEL, type Config, type RackCfg } from '../types';
+import { ITEM_TYPES, TYPE_COLOR, TYPE_LABEL, type Config, type RackCfg, type ZoneCfg } from '../types';
 import { parseFile } from '../lib/importers';
 import { totalColumns } from '../lib/layout';
 import { Btn, Drawer, Field, Switch, fmt, inputCls } from './kit';
@@ -94,7 +94,7 @@ export function DataDrawer() {
             <div className="truncate text-slate-600">{i.sample}</div>
           </div>
         ))}
-        {!issues.length && <p className="text-xs text-slate-500">Sin problemas. Las ubicaciones no válidas se dibujan en la <i>Zona virtual</i>, al norte del edificio.</p>}
+        {!issues.length && <p className="text-xs text-slate-500">Sin problemas. Las ubicaciones de rack inválidas se dibujan en la <i>Zona virtual</i>; las ubicaciones SAP no mapeadas crean zonas dinámicas al norte del edificio.</p>}
       </div>
     </Drawer>
   );
@@ -185,6 +185,104 @@ export function RacksDrawer() {
   );
 }
 
+/* ───────── zonas y ubicaciones ───────── */
+/** Campo de texto que confirma al salir del foco o con Enter (evita recalcular miles de cajas en cada tecla) */
+function CommitInput({ value, onCommit, className, placeholder }: { value: string; onCommit: (v: string) => void; className?: string; placeholder?: string }) {
+  const [v, setV] = useState(value);
+  const last = useRef(value);
+  if (last.current !== value) {
+    last.current = value;
+    setV(value);
+  }
+  const done = () => v !== value && onCommit(v);
+  return <input className={className} placeholder={placeholder} value={v} onChange={(e) => setV(e.target.value)} onBlur={done} onKeyDown={(e) => e.key === 'Enter' && (e.target as HTMLInputElement).blur()} />;
+}
+
+const slug = (t: string) => t.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'zona';
+
+export function ZonesDrawer() {
+  const { config, setConfig, boxes, dynZones, setDrawer } = useStore(useShallow((s) => ({ config: s.config, setConfig: s.setConfig, boxes: s.boxes, dynZones: s.dynZones, setDrawer: s.setDrawer })));
+  const [open, setOpen] = useState<string | null>(null);
+  const counts = useMemo(() => {
+    const m = new Map<string, number>();
+    for (const b of boxes) if (b.placement.kind === 'zone') m.set(b.placement.zone, (m.get(b.placement.zone) ?? 0) + 1);
+    return m;
+  }, [boxes]);
+  const patch = (id: string, p: Partial<ZoneCfg>) => setConfig({ ...config, zones: config.zones.map((z) => (z.id === id ? { ...z, ...p } : z)) });
+  const aliasesOf = (id: string) => Object.entries(config.aliases).filter(([, v]) => v === id).map(([k]) => k);
+  const setAliases = (id: string, text: string) => {
+    const aliases = Object.fromEntries(Object.entries(config.aliases).filter(([, v]) => v !== id));
+    for (const a of text.split(',').map((x) => x.trim().toUpperCase()).filter(Boolean)) aliases[a] = id;
+    setConfig({ ...config, aliases });
+  };
+  const add = () => {
+    let id = 'zona-nueva';
+    for (let i = 2; config.zones.some((z) => z.id === id); i++) id = `zona-nueva-${i}`;
+    setConfig({ ...config, zones: [...config.zones, { id, name: 'Zona nueva', kind: 'zone', rect: [700, 590, 800, 640], color: '#22d3ee' }] });
+    setOpen(id);
+  };
+  const remove = (z: ZoneCfg) => {
+    if (!confirm(`¿Eliminar la zona "${z.name}"?`)) return;
+    setConfig({ ...config, zones: config.zones.filter((x) => x.id !== z.id), aliases: Object.fromEntries(Object.entries(config.aliases).filter(([, v]) => v !== z.id)) });
+  };
+  const pin = (z: ZoneCfg) => {
+    let id = slug(z.name);
+    while (config.zones.some((x) => x.id === id)) id += '-2';
+    setConfig({ ...config, zones: [...config.zones, { ...z, id, dynamic: false }], aliases: { ...config.aliases, [z.name.toUpperCase()]: id } });
+  };
+  const rectLabels = ['x0', 'y0', 'x1', 'y1'];
+
+  return (
+    <Drawer title="Zonas y ubicaciones" subtitle="Asigna a cada espacio del piso los textos que usa SAP en la columna Ubicación." onClose={() => setDrawer(null)}>
+      <Btn variant="primary" onClick={add}><Plus size={14} /> Zona</Btn>
+      <div className="flex flex-col gap-1.5">
+        {config.zones.map((z) => (
+          <div key={z.id} className="rounded-xl bg-white/[0.04] px-2.5 py-2">
+            <div className="flex items-center gap-2">
+              <i className="h-3 w-3 shrink-0 rounded" style={{ background: z.color }} />
+              <span className="min-w-0 flex-1 truncate text-[13px] font-medium">{z.name}</span>
+              <span className="text-[11px] tabular-nums text-slate-500">{fmt(counts.get(z.id) ?? 0)} cajas</span>
+              <button onClick={() => setOpen(open === z.id ? null : z.id)} className="rounded-md p-1 text-slate-400 hover:bg-white/10 hover:text-white"><Settings2 size={14} /></button>
+              {z.kind !== 'virtual' && <button onClick={() => remove(z)} className="rounded-md p-1 text-slate-500 hover:bg-rose-500/20 hover:text-rose-300"><Trash2 size={14} /></button>}
+            </div>
+            {z.kind !== 'virtual' && (
+              <div className="mt-1.5 flex items-center gap-2 text-[11px] text-slate-400">
+                SAP:
+                <CommitInput value={aliasesOf(z.id).join(', ')} onCommit={(v) => setAliases(z.id, v)} placeholder="p. ej. INSUMOS, INSUMOS GENERAL" className="min-w-0 flex-1 rounded-md border border-white/10 bg-black/30 px-2 py-1 text-[12px] uppercase text-slate-100 outline-none focus:border-sky-400" />
+              </div>
+            )}
+            {open === z.id && (
+              <div className="mt-2 grid grid-cols-2 gap-x-4 gap-y-1.5 border-t border-white/5 pt-2">
+                <Field label="nombre"><CommitInput value={z.name} onCommit={(v) => patch(z.id, { name: v })} className="w-36 rounded-md border border-white/10 bg-black/30 px-1.5 py-1 text-[12px] text-slate-100 outline-none focus:border-sky-400" /></Field>
+                <Field label="color"><input type="color" value={z.color} onChange={(e) => patch(z.id, { color: e.target.value })} className="h-6 w-16 cursor-pointer rounded bg-transparent" /></Field>
+                {rectLabels.map((l, i) => (
+                  <Field key={l} label={`${l} (px)`}>
+                    <CommitInput value={String(Math.round(z.rect[i]))} onCommit={(v) => patch(z.id, { rect: z.rect.map((r, j) => (j === i ? Number(v) || r : r)) as ZoneCfg['rect'] })} className={inputCls} />
+                  </Field>
+                ))}
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+
+      <h3 className="mt-1 text-[11px] font-semibold uppercase tracking-wider text-slate-500">Zonas dinámicas ({dynZones.length})</h3>
+      <p className="text-xs text-slate-500">Se crean solas con las ubicaciones SAP que no corresponden a ningún rack ni zona (por ejemplo un patio que cambia de lugar). Aparecen al norte del edificio.</p>
+      <div className="flex flex-col gap-1.5">
+        {dynZones.map((z) => (
+          <div key={z.id} className="flex items-center gap-2 rounded-xl bg-white/[0.04] px-2.5 py-2 text-[13px]">
+            <i className="h-3 w-3 shrink-0 rounded" style={{ background: z.color }} />
+            <span className="min-w-0 flex-1 truncate">{z.name}</span>
+            <span className="text-[11px] tabular-nums text-slate-500">{fmt(counts.get(z.id) ?? 0)} cajas</span>
+            <button onClick={() => pin(z)} title="Convertir en zona fija" className="rounded-md p-1 text-slate-400 hover:bg-white/10 hover:text-white"><Pin size={14} /></button>
+          </div>
+        ))}
+        {!dynZones.length && <p className="text-xs text-slate-600">Ninguna por ahora.</p>}
+      </div>
+    </Drawer>
+  );
+}
+
 /* ───────── capas ───────── */
 export function LayersDrawer() {
   const { toggles, toggle, setDrawer, quality, qualityMode, setQualityMode, theme, setTheme } = useStore(
@@ -196,6 +294,7 @@ export function LayersDrawer() {
     ['walls', 'Paredes del edificio'],
     ['roof', 'Techo y luminarias'],
     ['upperMezz', 'Mezanine superior'],
+    ['offices', 'Segundo piso de oficinas'],
     ['forklifts', 'Montacargas'],
     ['people', 'Personas'],
   ];

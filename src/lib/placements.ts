@@ -1,4 +1,4 @@
-import type { Box, Config } from '../types';
+import type { Box, Config, ZoneCfg } from '../types';
 import { BEAM_T, rectWorld, slotCenter, type RackLayout } from './layout';
 
 export interface Placements {
@@ -12,7 +12,7 @@ export interface Placements {
 }
 
 /** Calcula dónde se dibuja cada caja: una por (código, ubicación), repartidas dentro de su hueco o zona. */
-export function computePlacements(boxes: Box[], layouts: Map<number, RackLayout>, cfg: Config): Placements {
+export function computePlacements(boxes: Box[], layouts: Map<number, RackLayout>, cfg: Config, dynZones: ZoneCfg[] = []): Placements {
   const n = boxes.length;
   const pos = new Float32Array(n * 3);
   const size = new Float32Array(n * 3);
@@ -56,7 +56,7 @@ export function computePlacements(boxes: Box[], layouts: Map<number, RackLayout>
   }
 
   for (const [zid, ids] of zones) {
-    const z = cfg.zones.find((x) => x.id === zid) ?? cfg.zones.find((x) => x.kind === 'virtual');
+    const z = cfg.zones.find((x) => x.id === zid) ?? dynZones.find((x) => x.id === zid) ?? cfg.zones.find((x) => x.kind === 'virtual');
     if (!z) continue;
     const { cx, cz, w, d } = rectWorld(cfg, z.rect);
     const pitch = Math.max(0.2, Math.min(0.8, Math.sqrt((w * d * 4) / ids.length)));

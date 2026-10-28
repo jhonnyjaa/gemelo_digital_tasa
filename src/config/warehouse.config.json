@@ -5,7 +5,7 @@
   665
  ],
  "plan": {
-  "image": "layout_almacen.jpg",
+  "image": "plano_actualizado.jpg",
   "size": [
    2000,
    1000
@@ -26,7 +26,7 @@
   {
    "id": 1,
    "levels": 6,
-   "columns": 21,
+   "columns": 24,
    "origin": [
     1390,
     646
@@ -35,23 +35,23 @@
     -1,
     0
    ],
-   "pitch": 46.7,
+   "pitch": 40.8,
    "depth": 22,
    "gaps": [
     {
-     "after": 8,
-     "width": 50
+     "after": 9,
+     "width": 49
     },
     {
-     "after": 14,
-     "width": 48
+     "after": 16,
+     "width": 49
     }
    ]
   },
   {
    "id": 2,
    "levels": 6,
-   "columns": 21,
+   "columns": 24,
    "origin": [
     1390,
     669
@@ -60,23 +60,23 @@
     -1,
     0
    ],
-   "pitch": 46.7,
+   "pitch": 40.8,
    "depth": 22,
    "gaps": [
     {
-     "after": 8,
-     "width": 50
+     "after": 9,
+     "width": 49
     },
     {
-     "after": 14,
-     "width": 48
+     "after": 16,
+     "width": 49
     }
    ]
   },
   {
    "id": 3,
    "levels": 6,
-   "columns": 22,
+   "columns": 25,
    "origin": [
     1390,
     767
@@ -85,50 +85,46 @@
     -1,
     0
    ],
-   "pitch": 46.8,
+   "pitch": 42.84,
    "depth": 21,
    "gaps": [
     {
-     "after": 8,
-     "width": 50
-    },
-    {
-     "after": 14,
-     "width": 50
+     "after": 9,
+     "width": 36
     }
    ]
   },
   {
    "id": 4,
    "levels": 6,
-   "columns": 22,
+   "columns": 30,
    "origin": [
-    1390,
+    1672,
     790
    ],
    "dir": [
     -1,
     0
    ],
-   "pitch": 46.8,
+   "pitch": 42.84,
    "depth": 21,
    "gaps": [
     {
-     "after": 8,
-     "width": 50
+     "after": 5,
+     "width": 68
     },
     {
      "after": 14,
-     "width": 50
+     "width": 36
     }
    ]
   },
   {
    "id": 5,
    "levels": 6,
-   "columns": 27,
+   "columns": 29,
    "origin": [
-    1490,
+    1658,
     884
    ],
    "dir": [
@@ -139,17 +135,21 @@
    "depth": 22,
    "gaps": [
     {
-     "after": 11,
+     "after": 2,
+     "width": 74
+    },
+    {
+     "after": 13,
      "width": 12
     },
     {
-     "after": 19,
+     "after": 21,
      "width": 20
     }
    ]
   },
   {
-   "id": 6,
+   "id": 7,
    "levels": 4,
    "columns": 4,
    "origin": [
@@ -162,21 +162,6 @@
    ],
    "pitch": 37,
    "depth": 24
-  },
-  {
-   "id": 7,
-   "levels": 4,
-   "columns": 4,
-   "origin": [
-    298,
-    508
-   ],
-   "dir": [
-    -0.403,
-    0.915
-   ],
-   "pitch": 34,
-   "depth": 22
   },
   {
    "id": 8,
@@ -196,7 +181,60 @@
   {
    "id": 9,
    "levels": 4,
-   "columns": 6,
+   "columns": 8,
+   "origin": [
+    298,
+    508
+   ],
+   "dir": [
+    -0.403,
+    0.915
+   ],
+   "pitch": 34,
+   "depth": 22,
+   "gaps": [
+    {
+     "after": 4,
+     "width": 115
+    }
+   ]
+  },
+  {
+   "id": 10,
+   "levels": 8,
+   "columns": 1,
+   "origin": [
+    372,
+    466
+   ],
+   "dir": [
+    -0.37,
+    0.93
+   ],
+   "pitch": 100,
+   "depth": 18,
+   "levelHeight": 0.55
+  },
+  {
+   "id": 11,
+   "levels": 4,
+   "columns": 3,
+   "origin": [
+    1800,
+    566
+   ],
+   "dir": [
+    -1,
+    0
+   ],
+   "pitch": 18,
+   "depth": 8,
+   "levelHeight": 0.78
+  },
+  {
+   "id": 12,
+   "levels": 4,
+   "columns": 10,
    "origin": [
     188,
     457
@@ -206,37 +244,13 @@
     0.916
    ],
    "pitch": 29,
-   "depth": 26
-  },
-  {
-   "id": 10,
-   "levels": 4,
-   "columns": 10,
-   "origin": [
-    1688,
-    888
-   ],
-   "dir": [
-    0,
-    -1
-   ],
-   "pitch": 21,
-   "depth": 22
-  },
-  {
-   "id": 11,
-   "levels": 4,
-   "columns": 7,
-   "origin": [
-    1791,
-    822
-   ],
-   "dir": [
-    0,
-    -1
-   ],
-   "pitch": 20.5,
-   "depth": 22
+   "depth": 26,
+   "gaps": [
+    {
+     "after": 6,
+     "width": 69
+    }
+   ]
   },
   {
    "id": 13,
@@ -333,6 +347,66 @@
    "pitch": 35,
    "depth": 10,
    "levelHeight": 1
+  },
+  {
+   "id": 19,
+   "levels": 4,
+   "columns": 10,
+   "origin": [
+    1688,
+    888
+   ],
+   "dir": [
+    0,
+    -1
+   ],
+   "pitch": 21,
+   "depth": 22
+  },
+  {
+   "id": 20,
+   "levels": 4,
+   "columns": 7,
+   "origin": [
+    1791,
+    822
+   ],
+   "dir": [
+    0,
+    -1
+   ],
+   "pitch": 20.5,
+   "depth": 22
+  },
+  {
+   "id": 21,
+   "levels": 4,
+   "columns": 7,
+   "origin": [
+    965,
+    452
+   ],
+   "dir": [
+    -1,
+    0
+   ],
+   "pitch": 42,
+   "depth": 16
+  },
+  {
+   "id": 22,
+   "levels": 4,
+   "columns": 5,
+   "origin": [
+    1185,
+    452
+   ],
+   "dir": [
+    -1,
+    0
+   ],
+   "pitch": 33,
+   "depth": 16
   },
   {
    "id": 30,
@@ -1021,8 +1095,8 @@
  ],
  "zones": [
   {
-   "id": "transito",
-   "name": "Zona tránsito temporal",
+   "id": "almtemp1",
+   "name": "Zona almacenamiento temporal (oeste)",
    "kind": "zone",
    "rect": [
     410,
@@ -1045,8 +1119,8 @@
    "color": "#10b981"
   },
   {
-   "id": "almtemp",
-   "name": "Zona almacenamiento temporal",
+   "id": "almtemp2",
+   "name": "Zona almacenamiento temporal (centro)",
    "kind": "zone",
    "rect": [
     1015,
@@ -1066,7 +1140,34 @@
     1270,
     545
    ],
-   "color": "#94a3b8"
+   "color": "#94a3b8",
+   "build": {
+    "h": 3,
+    "openings": [
+     {
+      "side": "w",
+      "at": 468,
+      "w": 3.2,
+      "kind": "window",
+      "sill": 0.95,
+      "top": 2.4
+     },
+     {
+      "side": "w",
+      "at": 522,
+      "w": 0.95,
+      "kind": "door"
+     },
+     {
+      "side": "s",
+      "at": 1242,
+      "w": 2.2,
+      "kind": "window",
+      "sill": 0.95,
+      "top": 2.4
+     }
+    ]
+   }
   },
   {
    "id": "activos",
@@ -1074,27 +1175,88 @@
    "kind": "room",
    "rect": [
     1472,
-    432,
-    1532,
+    430,
+    1533,
     535
    ],
-   "color": "#94a3b8"
+   "color": "#94a3b8",
+   "build": {
+    "h": 3.1,
+    "openings": [
+     {
+      "side": "w",
+      "at": 480,
+      "w": 4.2,
+      "kind": "window",
+      "sill": 0.95,
+      "top": 2.4
+     },
+     {
+      "side": "s",
+      "at": 1486,
+      "w": 0.95,
+      "kind": "door"
+     },
+     {
+      "side": "s",
+      "at": 1516,
+      "w": 1.5,
+      "kind": "window",
+      "sill": 0.95,
+      "top": 2.4
+     }
+    ]
+   }
   },
   {
    "id": "sshh",
    "name": "SSHH",
    "kind": "room",
    "rect": [
-    1535,
+    1533,
     430,
     1680,
-    565
+    570
    ],
-   "color": "#94a3b8"
+   "color": "#94a3b8",
+   "build": {
+    "h": 3.1,
+    "openings": [
+     {
+      "side": "s",
+      "at": 1562,
+      "w": 0.95,
+      "kind": "door"
+     }
+    ]
+   }
   },
   {
-   "id": "cross2",
-   "name": "Zona cross docking 2",
+   "id": "electronicos",
+   "name": "Electrónicos",
+   "kind": "room",
+   "rect": [
+    1680,
+    430,
+    1825,
+    570
+   ],
+   "color": "#38bdf8",
+   "build": {
+    "h": 3.1,
+    "openings": [
+     {
+      "side": "s",
+      "at": 1735,
+      "w": 1.5,
+      "kind": "door"
+     }
+    ]
+   }
+  },
+  {
+   "id": "almtemp3",
+   "name": "Zona almacenamiento temporal (este)",
    "kind": "zone",
    "rect": [
     1468,
@@ -1102,7 +1264,7 @@
     1658,
     765
    ],
-   "color": "#10b981"
+   "color": "#6366f1"
   },
   {
    "id": "insumos",
@@ -1118,7 +1280,7 @@
   },
   {
    "id": "patio-gas",
-   "name": "Patio gas",
+   "name": "Patio gas / almacenamiento temporal",
    "kind": "yard",
    "rect": [
     1855,
@@ -1129,16 +1291,16 @@
    "color": "#ef4444"
   },
   {
-   "id": "patio-ext",
-   "name": "Patio exterior",
-   "kind": "yard",
+   "id": "corte",
+   "name": "Máquina de corte",
+   "kind": "zone",
    "rect": [
-    1000,
-    925,
-    1650,
-    995
+    95,
+    760,
+    175,
+    825
    ],
-   "color": "#84cc16"
+   "color": "#f97316"
   },
   {
    "id": "virtual",
@@ -1155,11 +1317,9 @@
  ],
  "aliases": {
   "PATIO GAS": "patio-gas",
-  "PATIO EXT": "patio-ext",
-  "PATIO EXTERIOR": "patio-ext",
   "CROSS DOCKING": "cross1",
-  "TRANSITO TEMPORAL": "transito",
-  "ALMACENAMIENTO TEMPORAL": "almtemp",
+  "ALMACENAMIENTO TEMPORAL": "almtemp2",
+  "MAQUINA DE CORTE": "corte",
   "INSUMOS": "insumos"
  },
  "upperFloor": {
@@ -1168,7 +1328,13 @@
    1435,
    428,
    1825,
-   570
+   575
+  ],
+  "alero": [
+   1650,
+   575,
+   1825,
+   600
   ],
   "rooms": [
    {
@@ -1176,20 +1342,72 @@
     "rect": [
      1435,
      430,
-     1531,
-     535
+     1532,
+     575
     ],
-    "color": "#38bdf8"
+    "color": "#38bdf8",
+    "openings": [
+     {
+      "side": "e",
+      "at": 555,
+      "w": 1,
+      "kind": "door"
+     },
+     {
+      "side": "e",
+      "at": 450,
+      "w": 2,
+      "kind": "window"
+     },
+     {
+      "side": "n",
+      "at": 1480,
+      "w": 3,
+      "kind": "window"
+     },
+     {
+      "side": "w",
+      "at": 480,
+      "w": 3.5,
+      "kind": "window"
+     },
+     {
+      "side": "s",
+      "at": 1480,
+      "w": 3,
+      "kind": "window"
+     }
+    ]
    },
    {
     "name": "Planificación",
     "rect": [
      1534,
      430,
-     1647,
-     518
+     1648,
+     524
     ],
-    "color": "#34d399"
+    "color": "#34d399",
+    "openings": [
+     {
+      "side": "s",
+      "at": 1556,
+      "w": 1,
+      "kind": "glassdoor"
+     },
+     {
+      "side": "s",
+      "at": 1620,
+      "w": 1.8,
+      "kind": "window"
+     },
+     {
+      "side": "n",
+      "at": 1590,
+      "w": 3,
+      "kind": "window"
+     }
+    ]
    },
    {
     "name": "Jefatura",
@@ -1197,19 +1415,71 @@
      1650,
      430,
      1732,
-     518
+     524
     ],
-    "color": "#fbbf24"
+    "color": "#fbbf24",
+    "openings": [
+     {
+      "side": "s",
+      "at": 1670,
+      "w": 1,
+      "kind": "glassdoor"
+     },
+     {
+      "side": "s",
+      "at": 1708,
+      "w": 1.4,
+      "kind": "window"
+     },
+     {
+      "side": "n",
+      "at": 1690,
+      "w": 2.6,
+      "kind": "window"
+     }
+    ]
    },
    {
     "name": "Sala de reuniones",
     "rect": [
-     1735,
+     1734,
      430,
      1825,
-     560
+     600
     ],
-    "color": "#f472b6"
+    "color": "#f472b6",
+    "openings": [
+     {
+      "side": "w",
+      "at": 588,
+      "w": 1.2,
+      "kind": "glassdoor"
+     },
+     {
+      "side": "w",
+      "at": 470,
+      "w": 3,
+      "kind": "window"
+     },
+     {
+      "side": "s",
+      "at": 1790,
+      "w": 3.4,
+      "kind": "window"
+     },
+     {
+      "side": "n",
+      "at": 1780,
+      "w": 4,
+      "kind": "window"
+     },
+     {
+      "side": "e",
+      "at": 500,
+      "w": 3,
+      "kind": "window"
+     }
+    ]
    }
   ],
   "desks": [
@@ -1242,28 +1512,64 @@
     12
    ],
    [
-    1590,
+    1585,
     446,
     0,
     30,
     12
    ],
    [
-    1690,
+    1660,
     446,
     0,
     30,
     12
    ],
    [
-    1780,
-    495,
+    1761,
+    480,
     90,
     70,
     26
    ]
   ]
  },
+ "groundDesks": [
+  [
+   1226,
+   492,
+   90,
+   66,
+   12
+  ],
+  [
+   1250,
+   450,
+   0,
+   22,
+   11
+  ],
+  [
+   1481,
+   482,
+   90,
+   66,
+   12
+  ],
+  [
+   1512,
+   448,
+   0,
+   26,
+   11
+  ]
+ ],
+ "dynamicArea": [
+  260,
+  100,
+  1250,
+  330
+ ],
  "building": {
   "outline": [
    [
@@ -1291,7 +1597,16 @@
     836
    ]
   ],
-  "wallHeight": 10
+  "wallHeight": 10,
+  "gates": [
+   {
+    "p": [
+     1350,
+     433
+    ],
+    "width": 6
+   }
+  ]
  },
  "walkways": [
   {
@@ -1357,27 +1672,27 @@
  ],
  "stairs": [
   {
-   "id": "mezz",
+   "id": "oficinas",
    "from": [
-    1822,
-    690
+    1520,
+    588
    ],
    "to": [
-    1822,
-    570
+    1650,
+    588
    ],
-   "width": 26,
+   "width": 22,
    "height": 3.4
   },
   {
-   "id": "oficinas",
+   "id": "mezz",
    "from": [
-    1745,
-    664
+    1737,
+    612
    ],
    "to": [
-    1745,
-    572
+    1836,
+    612
    ],
    "width": 22,
    "height": 3.4
@@ -1507,7 +1822,7 @@
   {
    "id": "p6",
    "pos": [
-    1690,
+    1660,
     458
    ],
    "floor": 1,
@@ -1517,7 +1832,7 @@
   {
    "id": "p7",
    "pos": [
-    1764,
+    1740,
     480
    ],
    "floor": 1,
@@ -1527,8 +1842,8 @@
   {
    "id": "p8",
    "pos": [
-    1796,
-    510
+    1790,
+    505
    ],
    "floor": 1,
    "pose": "sit",
@@ -1537,8 +1852,8 @@
   {
    "id": "p9",
    "pos": [
-    1764,
-    510
+    1740,
+    505
    ],
    "floor": 1,
    "pose": "sit",
@@ -1548,27 +1863,27 @@
    "id": "p10",
    "pos": [
     1600,
-    545
+    548
    ],
    "floor": 1,
    "pose": "walk",
    "shirt": "#2563eb",
    "path": [
     [
-     1480,
-     548
+     1500,
+     550
     ],
     [
-     1720,
-     548
+     1712,
+     550
     ]
    ]
   },
   {
    "id": "p11",
    "pos": [
-    1242,
-    490
+    1244,
+    492
    ],
    "floor": 0,
    "pose": "stand",
@@ -1578,7 +1893,7 @@
   {
    "id": "p12",
    "pos": [
-    1500,
+    1503,
     480
    ],
    "floor": 0,
@@ -1639,7 +1954,7 @@
   {
    "id": "p15",
    "pos": [
-    1740,
+    1760,
     700
    ],
    "floor": 0,
@@ -1648,11 +1963,11 @@
    "vest": true,
    "path": [
     [
-     1740,
-     690
+     1760,
+     700
     ],
     [
-     1740,
+     1760,
      860
     ]
    ]

@@ -3,7 +3,7 @@ import type { Config, Pt, Theme } from '../types';
 import { buildLayouts } from './layout';
 
 /** El piso se pinta en un canvas a partir de la config: concreto, zonas epóxicas, pasillos peatonales, pasos de cebra, huellas de rack. */
-export const FLOOR_TOP = 300; // y (px del plano) donde empieza el canvas
+export const FLOOR_TOP = 90; // y (px del plano) donde empieza el canvas
 const K = 1.75; // px de canvas por px de plano
 
 let seed = 7;
@@ -121,14 +121,28 @@ export function paintFloor(cfg: Config, theme: Theme = 'dark'): CanvasTexture {
     g.setLineDash(z.kind === 'virtual' ? [18, 12] : []);
     g.strokeRect(x0, y0, w, h);
     g.setLineDash([]);
-    const fs = Math.max(18, Math.min(34, w / (z.name.length * 0.62)));
-    g.font = `700 ${fs}px "Inter Variable", Inter, system-ui, sans-serif`;
+    // cuadrícula de 1 m dentro de las zonas de almacenamiento (se ve el orden de las cajas)
+    if (z.kind === 'zone' || z.kind === 'yard') {
+      g.save();
+      g.beginPath();
+      g.rect(x0, y0, w, h);
+      g.clip();
+      g.strokeStyle = 'rgba(255,255,255,0.22)';
+      g.lineWidth = 1.2;
+      const cell = (1 / cfg.scale) * K;
+      for (let x = x0 + cell; x < x1; x += cell) { g.beginPath(); g.moveTo(x, y0); g.lineTo(x, y1); g.stroke(); }
+      for (let y = y0 + cell; y < y1; y += cell) { g.beginPath(); g.moveTo(x0, y); g.lineTo(x1, y); g.stroke(); }
+      g.restore();
+    }
+    const fs = Math.max(11, Math.min(20, w / (z.name.length * 0.66)));
+    g.font = `600 ${fs}px "Inter Variable", Inter, system-ui, sans-serif`;
     g.textAlign = 'center';
     g.textBaseline = 'middle';
-    g.fillStyle = 'rgba(255,255,255,0.82)';
+    g.fillStyle = 'rgba(255,255,255,0.8)';
     g.shadowColor = 'rgba(0,0,0,0.35)';
-    g.shadowBlur = 6;
-    g.fillText(z.name.toUpperCase(), x0 + w / 2, y0 + h / 2, w - 12);
+    g.shadowBlur = 4;
+    // en patios/zonas dinámicas el rótulo va abajo para no quedar tapado por las cajas
+    g.fillText(z.name.toUpperCase(), x0 + w / 2, z.kind === 'yard' ? y1 - fs * 0.9 : y0 + h / 2, w - 12);
     g.shadowBlur = 0;
   }
 

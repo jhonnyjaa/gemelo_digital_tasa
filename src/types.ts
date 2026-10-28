@@ -35,18 +35,33 @@ export interface RackCfg {
   group?: string;
 }
 
+/** Abertura en una pared de cuarto. `at` = coordenada en px a lo largo de la pared (x en n/s, y en e/w); `w` en metros. */
+export interface Opening {
+  side: 'n' | 's' | 'e' | 'w';
+  at: number;
+  w: number;
+  kind: 'door' | 'glassdoor' | 'window';
+  sill?: number;
+  top?: number;
+}
+
 export interface ZoneCfg {
   id: string;
   name: string;
   kind: 'zone' | 'room' | 'yard' | 'virtual';
   rect: [number, number, number, number];
   color: string;
+  /** cuarto con paredes 3D (oficinas, SSHH...) */
+  build?: { h: number; openings: Opening[] };
+  /** zona creada automáticamente para una ubicación SAP no mapeada */
+  dynamic?: boolean;
 }
 
 export interface RoomCfg {
   name: string;
   rect: [number, number, number, number];
   color: string;
+  openings?: Opening[];
 }
 
 export interface ForkliftCfg {
@@ -77,10 +92,15 @@ export interface Config {
   upperFloor: {
     height: number;
     rect: [number, number, number, number];
+    alero?: [number, number, number, number];
     rooms: RoomCfg[];
     desks: [number, number, number, number, number][];
   };
-  building: { outline: Pt[]; wallHeight: number };
+  /** escritorios / mostradores de planta baja: [x, y, rotación°, ancho px, fondo px] */
+  groundDesks?: [number, number, number, number, number][];
+  /** área (px) donde se acomodan las zonas dinámicas */
+  dynamicArea: [number, number, number, number];
+  building: { outline: Pt[]; wallHeight: number; gates?: { p: Pt; width: number }[] };
   walkways: { id: string; width: number; points: Pt[] }[];
   crosswalks: { p: Pt; length: number; width: number }[];
   stairs: { id: string; from: Pt; to: Pt; width: number; height: number }[];

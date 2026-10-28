@@ -5,7 +5,7 @@ import { Database, Sparkles } from 'lucide-react';
 import { useStore } from './store';
 import { Scene } from './scene/Scene';
 import { Dock, Inspector, Palette, TopBar, ViewBar } from './ui/Chrome';
-import { DataDrawer, LayersDrawer, RacksDrawer } from './ui/Drawers';
+import { DataDrawer, LayersDrawer, RacksDrawer, ZonesDrawer } from './ui/Drawers';
 import { Btn } from './ui/kit';
 
 function Empty() {
@@ -23,10 +23,27 @@ function Empty() {
   );
 }
 
+function WalkHud() {
+  const setWalk = useStore((s) => s.setWalk);
+  return (
+    <div className="pointer-events-none absolute inset-0">
+      <div className="absolute left-1/2 top-1/2 h-1.5 w-1.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-white/80 ring-1 ring-black/40" />
+      <div className="glass pointer-events-auto absolute bottom-5 left-1/2 flex -translate-x-1/2 items-center gap-4 rounded-2xl px-4 py-2 text-[12px] text-slate-300">
+        <span><b className="text-slate-100">W A S D</b> moverse</span>
+        <span><b className="text-slate-100">Ratón</b> mirar</span>
+        <span><b className="text-slate-100">Shift</b> correr</span>
+        <span>Escaleras: camina hacia ellas</span>
+        <button onClick={() => setWalk(false)} className="rounded-lg bg-white/10 px-2.5 py-1 font-semibold text-slate-100 hover:bg-white/20">Esc · Salir</button>
+      </div>
+    </div>
+  );
+}
+
 export default function App() {
   const init = useStore((s) => s.init);
   const ready = useStore((s) => s.ready);
   const drawer = useStore((s) => s.drawer);
+  const walk = useStore((s) => s.walk);
   useEffect(() => {
     init();
   }, [init]);
@@ -34,7 +51,8 @@ export default function App() {
   return (
     <div className="relative h-full w-full">
       {ready && <Scene />}
-      <div className="pointer-events-none absolute inset-0">
+      {walk && <WalkHud />}
+      <div className="pointer-events-none absolute inset-0" style={{ display: walk ? 'none' : undefined }}>
         <TopBar />
         <div className="absolute bottom-24 left-4 top-24 flex items-start gap-3">
           <Dock />
@@ -43,6 +61,7 @@ export default function App() {
               <motion.div key={drawer} initial={{ opacity: 0, x: -16 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -16 }} transition={{ type: 'spring', stiffness: 420, damping: 36 }} className="pointer-events-auto max-h-full">
                 {drawer === 'data' && <DataDrawer />}
                 {drawer === 'racks' && <RacksDrawer />}
+                {drawer === 'zones' && <ZonesDrawer />}
                 {drawer === 'layers' && <LayersDrawer />}
               </motion.div>
             )}

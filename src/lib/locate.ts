@@ -1,6 +1,7 @@
-import type { Box, Config, Issue, ItemType, Placement, Row, Stats } from '../types';
+import type { Box, Config, Issue, ItemType, Placement, Row, Stats, ZoneCfg } from '../types';
 import { ITEM_TYPES } from '../types';
 import { fmtLoc, parseRackLoc, resolveSlot, type RackLayout } from './layout';
+import { layoutDynamic } from './dynzones';
 
 export const norm = (s: string) =>
   s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().replace(/\s+/g, ' ').trim();
@@ -11,7 +12,8 @@ export function buildBoxes(
   rowsBySource: Record<ItemType, Row[]>,
   cfg: Config,
   layouts: Map<number, RackLayout>,
-): { boxes: Box[]; issues: Issue[]; stats: Stats } {
+): { boxes: Box[]; issues: Issue[]; stats: Stats; dynZones: ZoneCfg[] } {
+  const dyn = new Map<string, { id: string; name: string; count: number }>();
   const zoneByText = new Map<string, string>();
   for (const z of cfg.zones) {
     if (z.kind === 'virtual') continue;
@@ -58,8 +60,11 @@ export function buildBoxes(
         const zone = zoneByText.get(norm(raw));
         if (zone) placement = { kind: 'zone', zone };
         else {
-          issue = 'Ubicación no reconocida (ni rack ni zona)';
-          placement = { kind: 'zone', zone: 'virtual' };
+          // ubicación no mapeada: se crea una zona dinámica con ese nombre
+          const id = `dyn:${norm(raw)}`;
+          const d = dyn.get(id) ?? dyn.set(id, { id, name: canon, count: 0 }).get(id)!;
+          placement = { kind: 'zone', zone: id };
+          d.count++;
         }
       }
       if (issue) addIssue(row, issue);
@@ -103,5 +108,6 @@ export function buildBoxes(
     else stats.inZones++;
   }
   stats.boxes = boxes.length;
-  return { boxes, issues: [...issues.values()].sort((a, b) => b.count - a.count), stats };
+  const dynZones = layoutDynamic(cfg, [...dyn.values()]);
+  return { boxes, issues: [...issues.values()].sort((a, b) => b.count - a.count), stats, dynZones };
 }

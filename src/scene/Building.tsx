@@ -1,55 +1,91 @@
-import { Suspense, useMemo, useRef } from 'react';
+import { Suspense, useMemo } from 'react';
 import { useFrame } from '@react-three/fiber';
 import { Billboard, Text } from '@react-three/drei';
-import { DoubleSide, Mesh, MeshStandardMaterial, Shape, Vector2, Vector3 } from 'three';
+import { BoxGeometry, DoubleSide, MeshStandardMaterial, Shape, Vector2 } from 'three';
 import interFont from '@fontsource/inter/files/inter-latin-600-normal.woff?url';
 import { useStore } from '../store';
 import { rectWorld, toWorld } from '../lib/layout';
+import { buildWorld, type RoomWalls, type SideWalls } from '../lib/walls';
 import { Boxes, pushBox } from './Boxes';
-import type { Config, Pt } from '../types';
+import type { Config } from '../types';
 
-/** Pared que se vuelve casi transparente cuando la cámara está del lado de afuera (vista tipo casa de muñecas). */
-function Wall({ a, b, h, n, color }: { a: Pt; b: Pt; h: number; n: Pt; color: string }) {
-  const ref = useRef<Mesh>(null);
-  const dx = b[0] - a[0];
-  const dz = b[1] - a[1];
-  const len = Math.hypot(dx, dz);
-  const mid = new Vector3((a[0] + b[0]) / 2, h / 2, (a[1] + b[1]) / 2);
-  const mat = useMemo(() => new MeshStandardMaterial({ color, roughness: 0.85, transparent: true }), [color]);
+const UNIT = new BoxGeometry(1, 1, 1);
+
+/** Pared (tramo del perímetro o lado de un cuarto): se vuelve casi transparente cuando la cámara está del lado de afuera. */
+function useFade(mid: [number, number], n: [number, number], mats: { m: MeshStandardMaterial; out: number; inn: number }[]) {
   useFrame(({ camera }, dt) => {
-    const outside = (camera.position.x - mid.x) * n[0] + (camera.position.z - mid.z) * n[1] > 0;
-    const target = outside ? 0.07 : 1;
-    mat.opacity += (target - mat.opacity) * Math.min(1, dt * 6);
-    mat.depthWrite = mat.opacity > 0.9;
-    if (ref.current) ref.current.visible = mat.opacity > 0.02;
+    const walking = useStore.getState().walk;
+    const outside = !walking && (camera.position.x - mid[0]) * n[0] + (camera.position.z - mid[1]) * n[1] > 0;
+    const k = Math.min(1, dt * 6);
+    for (const { m, out, inn } of mats) {
+      m.opacity += ((outside ? out : inn) - m.opacity) * k;
+      m.depthWrite = m.opacity > 0.9;
+    }
   });
+}
+
+function Perimeter({ cfg }: { cfg: Config }) {
+  const theme = useStore((s) => s.theme);
+  const world = useMemo(() => buildWorld(cfg), [cfg]);
   return (
-    <mesh ref={ref} position={mid} rotation={[0, -Math.atan2(dz, dx), 0]} material={mat}>
-      <boxGeometry args={[len, h, 0.35]} />
-    </mesh>
+    <>
+      {world.outline.map((s, i) => (
+        <PerimeterWall key={i} a={s.a} b={s.b} n={s.n} h={cfg.building.wallHeight} color={theme === 'dark' ? '#cfd6de' : '#f1f4f8'} />
+      ))}
+    </>
   );
 }
 
-function Walls({ cfg }: { cfg: Config }) {
-  const theme = useStore((s) => s.theme);
-  const { segs, h } = useMemo(() => {
-    const pts = cfg.building.outline.map((p) => toWorld(cfg, p));
-    const cx = pts.reduce((s, p) => s + p[0], 0) / pts.length;
-    const cz = pts.reduce((s, p) => s + p[1], 0) / pts.length;
-    const segs = pts.map((a, i) => {
-      const b = pts[(i + 1) % pts.length];
-      let n: Pt = [-(b[1] - a[1]), b[0] - a[0]];
-      const l = Math.hypot(n[0], n[1]) || 1;
-      n = [n[0] / l, n[1] / l];
-      if (n[0] * ((a[0] + b[0]) / 2 - cx) + n[1] * ((a[1] + b[1]) / 2 - cz) < 0) n = [-n[0], -n[1]];
-      return { a, b, n };
-    });
-    return { segs, h: cfg.building.wallHeight };
-  }, [cfg]);
-  return <>{segs.map((s, i) => <Wall key={i} {...s} h={h} color={theme === 'dark' ? '#cfd6de' : '#f1f4f8'} />)}</>;
+function PerimeterWall({ a, b, n, h, color }: { a: [number, number]; b: [number, number]; n: [number, number]; h: number; color: string }) {
+  const mid: [number, number] = [(a[0] + b[0]) / 2, (a[1] + b[1]) / 2];
+  const mat = useMemo(() => new MeshStandardMaterial({ color, roughness: 0.85, transparent: true }), [color]);
+  useFade(mid, n, [{ m: mat, out: 0.07, inn: 1 }]);
+  const dx = b[0] - a[0];
+  const dz = b[1] - a[1];
+  return <mesh geometry={UNIT} material={mat} position={[mid[0], h / 2, mid[1]]} scale={[Math.hypot(dx, dz), h, 0.35]} rotation={[0, -Math.atan2(dz, dx), 0]} />;
 }
 
-/** Cubierta con luminarias LED high-bay (opcional) */
+function Side({ side, wall }: { side: SideWalls; wall: string }) {
+  const mats = useMemo(
+    () => ({
+      solid: new MeshStandardMaterial({ color: wall, roughness: 0.8, transparent: true }),
+      trim: new MeshStandardMaterial({ color: '#2a3441', roughness: 0.4, metalness: 0.6, transparent: true }),
+      door: new MeshStandardMaterial({ color: '#8a5a33', roughness: 0.6, transparent: true }),
+      glass: new MeshStandardMaterial({ color: '#9fd8ff', roughness: 0.05, metalness: 0.5, transparent: true, opacity: 0.2, depthWrite: false }),
+    }),
+    [wall],
+  );
+  useFade(side.mid, side.n, [
+    { m: mats.solid, out: 0.07, inn: 1 },
+    { m: mats.trim, out: 0.2, inn: 1 },
+    { m: mats.door, out: 0.2, inn: 1 },
+    { m: mats.glass, out: 0.04, inn: 0.2 },
+  ]);
+  return (
+    <>
+      {side.pieces.map((p, i) => (
+        <mesh key={i} geometry={UNIT} material={mats[p.k]} position={[p.x, p.y, p.z]} scale={[p.sx, p.sy, p.sz]} rotation={[0, p.yaw, 0]} />
+      ))}
+    </>
+  );
+}
+
+function Room({ room, wall }: { room: RoomWalls; wall: string }) {
+  return (
+    <group>
+      {room.sides.map((s, i) => <Side key={i} side={s} wall={wall} />)}
+      {room.label && (
+        <Suspense fallback={null}>
+          <Billboard position={[room.cx, room.base + room.h + 0.45, room.cz]}>
+            <Text font={interFont} fontSize={0.3} color="#fff" outlineWidth={0.03} outlineColor="#0b1220" anchorX="center">{room.name}</Text>
+          </Billboard>
+        </Suspense>
+      )}
+    </group>
+  );
+}
+
+/** Techo y luminarias LED high-bay (opcional) */
 function Roof({ cfg }: { cfg: Config }) {
   const { shape, lights } = useMemo(() => {
     const pts = cfg.building.outline.map((p) => toWorld(cfg, p));
@@ -78,37 +114,20 @@ function Roof({ cfg }: { cfg: Config }) {
   );
 }
 
-/** Mezanine: cubierta metálica, columnas, barandas y la escalera de acceso */
+/** Mezanine: cubierta metálica, columnas y barandas */
 function MezzStructure({ cfg }: { cfg: Config }) {
+  const world = useMemo(() => buildWorld(cfg), [cfg]);
   const d = rectWorld(cfg, cfg.mezzDeck.rect);
   const H = cfg.mezzDeck.height;
-  const { posts, rails } = useMemo(() => {
-    const posts: number[] = [];
-    const rails: number[] = [];
+  const posts = useMemo(() => {
+    const out: number[] = [];
     const x0 = d.cx - d.w / 2;
     const x1 = d.cx + d.w / 2;
     const z0 = d.cz - d.d / 2;
     const z1 = d.cz + d.d / 2;
-    for (let z = z0 + 0.5; z <= z1; z += 3.6) for (const x of [x0 + 0.15, x1 - 0.15]) pushBox(posts, x, (H - 0.15) / 2, z, 0.18, H - 0.15, 0.18);
-    // barandas perimetrales (con abertura en la escalera: borde oeste, z ≈ 570-590 px)
-    const [, gz0] = toWorld(cfg, [0, 558]);
-    const [, gz1] = toWorld(cfg, [0, 584]);
-    const yTop = H + 1.05;
-    const yMid = H + 0.55;
-    const edge = (ax: number, az: number, bx: number, bz: number) => {
-      const len = Math.hypot(bx - ax, bz - az);
-      const yaw = -Math.atan2(bz - az, bx - ax);
-      for (const y of [yTop, yMid]) pushBox(rails, (ax + bx) / 2, y, (az + bz) / 2, len, 0.05, 0.05, yaw);
-      const n = Math.max(1, Math.round(len / 2));
-      for (let i = 0; i <= n; i++) pushBox(rails, ax + ((bx - ax) * i) / n, H + 0.52, az + ((bz - az) * i) / n, 0.05, 1.04, 0.05);
-    };
-    edge(x0, z0, x1, z0);
-    edge(x0, z1, x1, z1);
-    edge(x1, z0, x1, z1);
-    edge(x0, z0, x0, gz0);
-    edge(x0, gz1, x0, z1);
-    return { posts, rails };
-  }, [d.cx, d.cz, d.w, d.d, H, cfg]);
+    for (let z = z0 + 0.5; z <= z1; z += 3.6) for (const x of [x0 + 0.15, x1 - 0.15]) pushBox(out, x, (H - 0.15) / 2, z, 0.18, H - 0.15, 0.18);
+    return out;
+  }, [d.cx, d.cz, d.w, d.d, H]);
   return (
     <group>
       <mesh position={[d.cx, H - 0.08, d.cz]}>
@@ -116,7 +135,8 @@ function MezzStructure({ cfg }: { cfg: Config }) {
         <meshStandardMaterial color="#8d97a3" roughness={0.55} metalness={0.4} />
       </mesh>
       <Boxes data={posts} color="#4a5568" metal={0.5} rough={0.5} />
-      <Boxes data={rails} color="#f5c518" rough={0.45} />
+      <Boxes data={world.deckRails} color="#f5c518" rough={0.45} />
+      <Boxes data={world.deckPosts} color="#f5c518" rough={0.45} />
     </group>
   );
 }
@@ -158,67 +178,71 @@ function Stairs({ cfg }: { cfg: Config }) {
   );
 }
 
-/** Segundo piso de oficinas: losa, mamparas de vidrio, escritorios con monitor */
+/** Escritorios / mostradores: [x, y, rotación°, ancho px, fondo px] */
+function furniture(cfg: Config, list: [number, number, number, number, number][], base: number) {
+  const desk: number[] = [];
+  const mon: number[] = [];
+  for (const [x, y, rot, w, d] of list) {
+    const [wx, wz] = toWorld(cfg, [x, y]);
+    const yaw = -(rot * Math.PI) / 180;
+    const ww = w * cfg.scale;
+    const dd = d * cfg.scale;
+    pushBox(desk, wx, base + 0.74, wz, ww, 0.04, dd, yaw);
+    const cos = Math.cos(yaw);
+    const sin = Math.sin(yaw);
+    for (const sx of [-1, 1]) pushBox(desk, wx + cos * sx * (ww / 2 - 0.05), base + 0.37, wz - sin * sx * (ww / 2 - 0.05), 0.05, 0.74, dd - 0.1, yaw);
+    if (ww < 3) pushBox(mon, wx, base + 1.0, wz, 0.5, 0.3, 0.03, yaw);
+  }
+  return { desk, mon };
+}
+
+/** Bloque de oficinas: losa del segundo piso, pisos coloreados, mobiliario y barandas */
 function Offices({ cfg }: { cfg: Config }) {
   const uf = cfg.upperFloor;
   const slab = rectWorld(cfg, uf.rect);
   const H = uf.height;
-  const { glass, frames, desk, mon, floors } = useMemo(() => {
-    const glass: number[] = [];
-    const frames: number[] = [];
-    const desk: number[] = [];
-    const mon: number[] = [];
-    const floors = uf.rooms.map((rm) => ({ ...rectWorld(cfg, rm.rect), color: rm.color, name: rm.name }));
-    for (const r of floors) {
-      const x0 = r.cx - r.w / 2;
-      const x1 = r.cx + r.w / 2;
-      const z0 = r.cz - r.d / 2;
-      const z1 = r.cz + r.d / 2;
-      const hh = 2.7;
-      pushBox(glass, r.cx, H + hh / 2, z0, r.w, hh, 0.04);
-      pushBox(glass, r.cx, H + hh / 2, z1, r.w, hh, 0.04);
-      pushBox(glass, x0, H + hh / 2, r.cz, 0.04, hh, r.d);
-      pushBox(glass, x1, H + hh / 2, r.cz, 0.04, hh, r.d);
-      for (const [x, z] of [[x0, z0], [x1, z0], [x0, z1], [x1, z1]]) pushBox(frames, x, H + hh / 2, z, 0.07, hh, 0.07);
-      for (const [cx, cz, w, d] of [[r.cx, z0, r.w, 0.07], [r.cx, z1, r.w, 0.07], [x0, r.cz, 0.07, r.d], [x1, r.cz, 0.07, r.d]]) pushBox(frames, cx, H + hh, cz, w, 0.07, d);
-    }
-    for (const [x, y, rot, w, d] of uf.desks) {
-      const [wx, wz] = toWorld(cfg, [x, y]);
-      const yaw = -(rot * Math.PI) / 180;
-      const ww = w * cfg.scale;
-      const dd = d * cfg.scale;
-      pushBox(desk, wx, H + 0.74, wz, ww, 0.04, dd, yaw);
-      const cos = Math.cos(yaw);
-      const sin = Math.sin(yaw);
-      for (const sx of [-1, 1]) pushBox(desk, wx + cos * sx * (ww / 2 - 0.05), H + 0.37, wz - sin * sx * (ww / 2 - 0.05), 0.05, 0.74, dd - 0.1, yaw);
-      if (ww < 3) pushBox(mon, wx, H + 1.0, wz, 0.5, 0.3, 0.03, yaw);
-    }
-    return { glass, frames, desk, mon, floors };
-  }, [cfg, uf, H]);
+  const alero = uf.alero ? rectWorld(cfg, uf.alero) : null;
+  const world = useMemo(() => buildWorld(cfg), [cfg]);
+  const up = useMemo(() => furniture(cfg, uf.desks, H), [cfg, uf, H]);
+  const ground = useMemo(() => furniture(cfg, cfg.groundDesks ?? [], 0), [cfg]);
+  const floors = useMemo(() => uf.rooms.map((rm) => ({ ...rectWorld(cfg, rm.rect), color: rm.color, name: rm.name })), [cfg, uf]);
   return (
     <group>
       <mesh position={[slab.cx, H - 0.12, slab.cz]}>
         <boxGeometry args={[slab.w, 0.24, slab.d]} />
         <meshStandardMaterial color="#d3d9e0" roughness={0.7} />
       </mesh>
+      {alero && (
+        <mesh position={[alero.cx, H - 0.12, alero.cz]}>
+          <boxGeometry args={[alero.w, 0.24, alero.d]} />
+          <meshStandardMaterial color="#d3d9e0" roughness={0.7} />
+        </mesh>
+      )}
       {floors.map((r) => (
-        <group key={r.name}>
-          <mesh rotation={[-Math.PI / 2, 0, 0]} position={[r.cx, H + 0.005, r.cz]}>
-            <planeGeometry args={[r.w, r.d]} />
-            <meshStandardMaterial color={r.color} roughness={0.95} transparent opacity={0.35} />
-          </mesh>
-          <Suspense fallback={null}>
-            <Billboard position={[r.cx, H + 3.3, r.cz]}>
-              <Text font={interFont} fontSize={0.4} color="#fff" outlineWidth={0.04} outlineColor="#0b1220" anchorX="center">{r.name}</Text>
-            </Billboard>
-          </Suspense>
-        </group>
+        <mesh key={r.name} rotation={[-Math.PI / 2, 0, 0]} position={[r.cx, H + 0.005, r.cz]}>
+          <planeGeometry args={[r.w, r.d]} />
+          <meshStandardMaterial color={r.color} roughness={0.95} transparent opacity={0.3} />
+        </mesh>
       ))}
-      <Boxes data={glass} color="#9fd8ff" opacity={0.16} rough={0.05} metal={0.6} />
-      <Boxes data={frames} color="#2a3441" metal={0.7} rough={0.4} />
-      <Boxes data={desk} color="#a98558" rough={0.6} />
-      <Boxes data={mon} color="#0c0f14" rough={0.3} emissive="#102a43" emissiveIntensity={0.6} />
+      <Boxes data={up.desk} color="#a98558" rough={0.6} />
+      <Boxes data={up.mon} color="#0c0f14" rough={0.3} emissive="#102a43" emissiveIntensity={0.6} />
+      <Boxes data={ground.desk} color="#c9ccd1" rough={0.5} />
+      <Boxes data={ground.mon} color="#0c0f14" rough={0.3} emissive="#102a43" emissiveIntensity={0.6} />
+      <Boxes data={world.rails} color="#f5c518" rough={0.45} />
+      <Boxes data={world.posts} color="#f5c518" rough={0.45} />
     </group>
+  );
+}
+
+function Rooms({ cfg }: { cfg: Config }) {
+  const theme = useStore((s) => s.theme);
+  const offices = useStore((s) => s.toggles.offices);
+  const world = useMemo(() => buildWorld(cfg), [cfg]);
+  const wall = theme === 'dark' ? '#d5dbe3' : '#f7f8fa';
+  return (
+    <>
+      {world.rooms.filter((r) => offices || !r.id.startsWith('up:')).map((r) => <Room key={r.id} room={r} wall={wall} />)}
+    </>
   );
 }
 
@@ -227,13 +251,15 @@ export function Building() {
   const roof = useStore((s) => s.toggles.roof);
   const upper = useStore((s) => s.toggles.upperMezz);
   const walls = useStore((s) => s.toggles.walls);
+  const offices = useStore((s) => s.toggles.offices);
   return (
     <group>
-      {walls && <Walls cfg={cfg} />}
+      {walls && <Perimeter cfg={cfg} />}
       {roof && <Roof cfg={cfg} />}
       {upper && <MezzStructure cfg={cfg} />}
       <Stairs cfg={cfg} />
-      <Offices cfg={cfg} />
+      {offices && <Offices cfg={cfg} />}
+      <Rooms cfg={cfg} />
     </group>
   );
 }

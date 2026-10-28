@@ -9,8 +9,9 @@ export function Floor() {
   const cfgNow = useStore((s) => s.config);
   const cfg = useDeferredValue(cfgNow); // al editar racks no bloquea la escritura mientras se repinta
   const theme = useStore((s) => s.theme);
+  const dyn = useStore((s) => s.dynZones);
   const maxAniso = useThree((s) => s.gl.capabilities.getMaxAnisotropy());
-  const tex = useMemo(() => paintFloor(cfg, theme), [cfg, theme]);
+  const tex = useMemo(() => paintFloor({ ...cfg, zones: [...cfg.zones, ...dyn] }, theme), [cfg, dyn, theme]);
   useEffect(() => {
     tex.anisotropy = maxAniso;
     return () => tex.dispose();

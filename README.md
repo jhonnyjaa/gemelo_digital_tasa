@@ -24,7 +24,7 @@ Tema claro/oscuro: botón en la barra superior (se recuerda).
 ## Configuración
 `src/config/warehouse.config.json` (generado por `tools/gen-config.mjs`; se puede editar a mano o desde la UI):
 racks, zonas, alias de ubicaciones, contorno del edificio, pasillos peatonales y pasos de cebra, escaleras, oficinas, rutas de montacargas, personas y la escala (`scale` = m por px del plano).
-Coordenadas en px de `layout_almacen.jpg` mostrada a 2000x1000. El piso se pinta desde esta config (`src/lib/floor.ts`); la imagen ya no se usa como textura.
+Coordenadas en px de `plano_actualizado.jpg` mostrada a 2000x1000. El piso se pinta desde esta config (`src/lib/floor.ts`); la imagen ya no se usa como textura.
 
 ## Tránsito
 Los montacargas usan carriles propios (`forklifts[].route`); las personas caminan por pasillos peatonales y cruzan los carriles solo en los pasos de cebra.
@@ -39,3 +39,11 @@ Un montacargas frena y espera si hay una persona o equipo a menos de 5.5 m al fr
 - Ubicación vacía → no se dibuja (solo se cuenta).
 - Una caja por (tipo, código, ubicación); los lotes se listan en el detalle. Un activo con subnúmeros es una sola caja.
 - Números SAP: coma = miles, punto = decimal, negativo al final (`129,358.27-`).
+
+## Oficinas, zonas dinámicas y recorrido a pie
+
+- **Oficinas**: el bloque de oficinas es un solo edificio. Planta baja: activos y recepción (cubos con ventanas grandes de atención), SSHH y Electrónicos. Segundo piso: Operaciones, Planificación, Jefatura y Sala de reuniones, con paredes, puertas y ventanas definidas en `warehouse.config.json` (`zones[].build` y `upperFloor.rooms[].openings`).
+- **Escaleras** (`stairs`): la de oficinas sube pegada al bloque y llega frente a la puerta de la sala de reuniones; la de mezanine arranca en la puerta de Electrónicos y desemboca frente a los racks.
+- **Zonas dinámicas**: toda ubicación SAP que no sea un rack ni una zona conocida crea sola una zona al norte del edificio (`dynamicArea`), con tamaño según la cantidad de cajas. En el panel *Zonas* se puede fijar como zona permanente.
+- **Zonas y ubicaciones SAP**: en el panel *Zonas* cada espacio del piso tiene su texto SAP (p. ej. `INSUMOS`); al cargar el Excel, los artículos con esa ubicación aparecen en la cuadrícula del piso.
+- **Recorrer** (tecla `F` o botón): primera persona con WASD, Shift para correr, ratón para mirar, colisión con racks y paredes, y escaleras transitables. Los montacargas ceden el paso al visitante. `Esc` para salir.
